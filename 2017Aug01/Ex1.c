@@ -7,9 +7,9 @@ typedef struct student {
     int id;
 }   student;
 
-void modify(student *s){
-    strcpy(s->name , "abc"  );
-    s->id = 123;
+void modify(student *srtptr){
+    strcpy(srtptr->name , "abc"  );
+    srtptr->id = 123;
 }
 
 void PrintStruc(student *s){
@@ -23,7 +23,7 @@ int main(){
     PrintStruc(stu1);
     modify(stu1);
     PrintStruc(stu1);
-    
+
     free(stu1);
     return 0;
 }
