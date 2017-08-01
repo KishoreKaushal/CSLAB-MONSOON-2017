@@ -9,6 +9,7 @@ typedef struct student {
 
 void modify(student *s){
     strcpy(s->name , "abc"  );
+    s->id = 123;
 }
 
 void PrintStruc(student *s){
@@ -20,7 +21,9 @@ int main(){
     strcpy(stu1->name , "Kaushal Kishore");
     stu1->id = 111601008;
     PrintStruc(stu1);
-
+    modify(stu1);
+    PrintStruc(stu1);
+    
     free(stu1);
     return 0;
 }
