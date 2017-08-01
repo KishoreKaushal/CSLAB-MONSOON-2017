@@ -36,7 +36,7 @@ int main(int argc, char const *argv[]) {
     /* maxID structure pointer will point to the student with max ID */
     student *maxID;
 
-    scanf("%30[a-zA-Z ] ",list[0].name);
+    scanf("%30[a-zA-Z ]  ",list[0].name);
     scanf(" %d" , &list[0].ID);
 
     /* Initializing the maxID structure pointer */
