@@ -87,6 +87,7 @@ int deleteNode(_LINKED_LIST_ *list , _NODE_ *n ){
     if(n==list->head){
         _NODE_ *tmp = list->head;
         list->head = list->head->next;
+        free(tmp);
     } else{
         while(node->next!=n && node!=NULL ){
             node = node->next;
