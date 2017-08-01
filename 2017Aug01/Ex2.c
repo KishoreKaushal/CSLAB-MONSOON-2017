@@ -1,6 +1,6 @@
 /*                              */
 /*    @kaushal_kishore          */
-/* mailTo: kshr4kshl@gmail.com  */
+/* 111601008@smail.iitpkd.ac.in */
 /*                              */
 /*         Ex2.c                */
 
@@ -36,14 +36,16 @@ int main(int argc, char const *argv[]) {
     /* maxID structure pointer will point to the student with max ID */
     student *maxID;
 
-    scanf("%30[a-zA-Z ]  ",list[0].name);
-    scanf(" %d" , &list[0].ID);
 
     /* Initializing the maxID structure pointer */
     maxID = &list[0];
 
+    scanf("%30[a-zA-Z ]  ",list[0].name);
+    scanf(" %d" , &list[0].ID);
+
     for (int i=1; i<N; i++){
-        scanf("%s %d",list[i].name, &list[i].ID);
+        scanf(" %30[a-zA-Z ]  ",list[i].name);
+        scanf(" %d" , &list[i].ID);
         if(compareStu(&list[i] , maxID)) maxID = &list[i];
     }
 
@@ -53,7 +55,7 @@ int main(int argc, char const *argv[]) {
         PrintStruc(&list[i]);
     }
 
-    printf("%s" , maxID->name);
+    printf("%s\n" , maxID->name);
 
     free(list);
     return 0;

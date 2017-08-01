@@ -1,132 +1,147 @@
 #include<stdio.h>
 #include<stdlib.h>
-#include<string.h>
-#include "dataStructures.h"
+#define FAILED (0)
+#define SUCCESS (1)
+
+typedef struct _NODE_ {
+    int data;
+    struct _NODE_ *next;
+} _NODE_ ;
+
+typedef _NODE_ node;
+
+typedef struct _SINGLY_LINKED_LIST_ {
+    _NODE_ *head;
+    _NODE_ *tail;
+} _LINKED_LIST_;
 
 void initializeList(_LINKED_LIST_ *list){
-    list->head = NULL;
-    list->current = NULL;
-    list->tail = NULL;
+    list->head = list->tail = NULL;
 }
 
-int addHead(_LINKED_LIST_* list, void* data){
-    _NODE_ *node = (_NODE_*)malloc(sizeof(_NODE_));
-    if(node == NULL) return 0;
-    node->data = data;
+int addHead(_LINKED_LIST_ *list, int val ){
+    _NODE_ *newNode = (_NODE_*)malloc(sizeof(_NODE_));
+    if(newNode == NULL) return FAILED;
+    newNode->next = NULL ; newNode->data = val;
     if(list->head == NULL){
-        list->tail = node;
-        node->next = NULL;
+       list->tail = newNode ;
     } else {
-        node->next = list->head;
+        newNode->next = list->head;
     }
-    list->head = node;
-    return 1;
-}
-
-int addTail(_LINKED_LIST_* list, void* data){
-    _NODE_ *node = (_NODE_*)malloc(sizeof(_NODE_));
-    if(node == NULL) return 0;
-    node->data = data;
-    node->next = NULL;
-    if(list->head == NULL ){
-        list->head = node;
-    } else {
-        list->tail->next = node;
-    }
-    list->tail = node;
-    return 1;
+    list->head = newNode;
+    return SUCCESS;
 }
 
 
-_NODE_ *getNode(const _LINKED_LIST_ *list, COMPARE compare, void *data){
+
+void displayLinkedList(_NODE_ *head){
+    _NODE_ *node = head;
+    while(node!=NULL){
+        printf("%d-> " ,node->data );
+        node = node->next;
+    }
+    printf("END\n");
+}
+
+_NODE_ * reverseLinkedList(_LINKED_LIST_  *list){
+    _NODE_ *cur = list->head ;
+    _NODE_ *nt  = cur->next;
+    _NODE_ *prev = NULL;
+
+   if(list->head == NULL ) return NULL;
+   while(cur!=NULL){
+       nt = cur->next;
+       cur->next = prev;
+       prev = cur;
+       cur = nt;
+   }
+   list->head = prev;
+   return prev;
+}
+
+_NODE_ * getNode(_LINKED_LIST_ *list, int data){
+    printf("%s\n", "in func getNode");
     _NODE_ *node = list->head;
-    while(node != NULL ){
-        if(compare(node->data, data) == 0){
+    while(node!=NULL){
+        if(node->data == data)
             return node;
-        }
         node = node->next;
     }
     return NULL;
 }
 
-void displayLinkedList(const _LINKED_LIST_ *list , DISPLAY display){
-    //printf("Linked List\n");
-    _NODE_ *current = list->head;
-    while(current != NULL){
-        display(current->data);
-        current = current->next;
+int addNode(_LINKED_LIST_ *list ,_NODE_ *node,  int  data){
+    _NODE_ *afterThis = getNode(list , data);
+    printf("%s\n", "in func addNode");
+    if(afterThis == NULL ) return FAILED;
+
+    else {
+        node->next = afterThis->next;
+        afterThis->next = node;
     }
+    return SUCCESS;
 }
 
-
-void removeNode(_LINKED_LIST_ *list, _NODE_ *node) {
-    if (node == list->head) {
-        if (list->head->next == NULL) {
-            list->head = list->tail = NULL;
-        } else {
-            list->head = list->head->next;
-        }
-    } else {
+int deleteNode(_LINKED_LIST_ *list , _NODE_ *n ){
+    _NODE_ *node = list->head;
+    if(n==list->head){
         _NODE_ *tmp = list->head;
-        while (tmp != NULL && tmp->next != node) {
-            tmp = tmp->next;
+        list->head = list->head->next;
+    } else{
+        while(node->next!=n && node!=NULL ){
+            node = node->next;
         }
-        if (tmp != NULL) {
-            tmp->next = node->next;
+        if(node->next == n){
+            _NODE_ *tmp = node->next;
+            node->next = node->next->next;
+            free(tmp);
+            return SUCCESS;
         }
     }
-    free(node);
+    return FAILED;
 }
 
-int listEmpty(const _LINKED_LIST_ *list) {
-    return (list->head == NULL);
-}
-
-void freeList(_LINKED_LIST_ *list) {
-    while(!listEmpty(list)){
-        removeNode(list, list->head);
+void freeList(_LINKED_LIST_ *list){
+    _NODE_ *node = list->head;
+    while(node!=NULL){
+        list->head = list->head->next;
+        free(node);
+        node = list->head;
     }
 }
-
-/* Declaring  structure for the employee data */
-typedef struct student {
-    char name[32];
-    int id;
-}   student;
-
-int compareStudent(student *s1, student *s2) {
-    if(s1->id==s2->id) { return SUCCESS; }
-        else return FAILED;
-}
-
-void displayStudent(student *s) {
-    printf("NAME: %s\tID: %d\n", s->name, s->id);
-}
-
 
 int main(){
-    _LINKED_LIST_ list;
-    initializeList(&list);
-    student *samuel = (student*) malloc(sizeof(student));
-    strcpy(samuel->name, "Samuel");
-    samuel->id = 32;
-    student *sally = (student*) malloc(sizeof(student));
-    strcpy(sally->name, "Sally");
-    sally->id = 28;
-    student *susan = (student*) malloc(sizeof(student));
-    strcpy(susan->name, "Susan");
-        susan->id = 45;
+    _LINKED_LIST_ *list;
+    initializeList(list);
+    int n, data;
+    scanf(" %d" , &n);
+    for(int i=0; i<n; i++){
+        scanf(" %d" , &data);
+        addHead(list , data);
+    }
+    printf("\n");
+    displayLinkedList(list->head);
+    printf("adding node with val 56 after a node containing data= your input\n");
+    _NODE_ *newNode = (_NODE_*)malloc(sizeof(_NODE_));
+    newNode->data = 56;
+    int val;
+    scanf(" %d" , &val);
 
-    addHead(&list , samuel);
-    displayLinkedList(&list , (DISPLAY)displayStudent);
-    printf("\n");
-    addHead(&list , sally);
-    displayLinkedList(&list , (DISPLAY)displayStudent);
-    printf("\n");
-    addTail(&list , susan);
-    displayLinkedList(&list , (DISPLAY)displayStudent);
-    printf("\n");
-    freeList(&list);
-    displayLinkedList(&list , (DISPLAY)displayStudent);
+    if(addNode(list , newNode , val)==0){
+        printf("Failed To add Node\n");
+    } else {
+        printf("Node Added\n");
+        displayLinkedList(list->head);
+    }
+
+    printf("\ndeleting a node with data-value = your input\n");
+    scanf(" %d" , &val);
+    deleteNode(list , getNode(list , val));
+    displayLinkedList(list->head);
+
+
+    printf("\nReversing the list..\n");
+    displayLinkedList(reverseLinkedList(list));
+    freeList(list);
     return 0;
 }

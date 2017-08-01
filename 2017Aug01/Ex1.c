@@ -1,3 +1,9 @@
+/*                              */
+/*    @kaushal_kishore          */
+/* 111601008@smail.iitpkd.ac.in */
+/*                              */
+/*         Ex1.c                */
+
 #include<stdio.h>
 #include<string.h>
 
@@ -17,15 +23,19 @@ void modify(student *srtptr){
 
 /* this function will print the student info */
 void PrintStruc(student *s){
-    printf("Name: %s\tID: %d\n", s->name, s->id);
+    printf("%s\t%d\n", s->name, s->id);
 }
 
 int main(){
+    /* declaring the student structure */
     student stu1 ;
-    strcpy(stu1.name , "Kaushal Kishore");
-    stu1.id = 111601008;
+    /* initializing the structure */
+    strcpy(stu1.name , "Kaushal Kishore");    stu1.id = 111601008;
+    /* priniting the structure */
     PrintStruc(&stu1);
+    /* modifying the data */
     modify(&stu1);
+    /* Again priniting the structure*/
     PrintStruc(&stu1);
     return 0;
 }
