@@ -66,7 +66,7 @@ _NODE_ * reverseLinkedList(_LINKED_LIST_  *list){
 }
 
 _NODE_ * getNode(_LINKED_LIST_ *list, int data){
-    printf("%s\n", "in func getNode");
+    //printf("%s\n", "in func getNode");
     _NODE_ *node = list->head;
     while(node!=NULL){
         if(node->data == data)
@@ -78,7 +78,7 @@ _NODE_ * getNode(_LINKED_LIST_ *list, int data){
 
 int addNode(_LINKED_LIST_ *list ,_NODE_ *node,  int  data){
     _NODE_ *afterThis = getNode(list , data);
-    printf("%s\n", "in func addNode");
+    //printf("%s\n", "in func addNode");
     if(afterThis == NULL ) return FAILED;
 
     else {
@@ -141,9 +141,13 @@ int main(){
         displayLinkedList(list->head);
     }
 
-    printf("\ndeleting a node with data-value = your input\n");
+    printf("\ndeleting all nodes with data-value = your input\n");
     scanf(" %d" , &val);
-    deleteNode(list , getNode(list , val));
+    _NODE_ *temp = getNode(list , val);
+    do{
+        deleteNode(list , temp);
+        temp = getNode(list , val);
+    } while(temp!=NULL);
     displayLinkedList(list->head);
 
 
