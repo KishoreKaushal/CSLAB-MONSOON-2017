@@ -8,7 +8,9 @@
 #include<stdlib.h>
 #define FAILED (0)
 #define SUCCESS (1)
+#define B_YELLOW "\033[1;33m"
 
+/* DECALARING THE NODE STRUCTURE */
 typedef struct _NODE_ {
     int data;
     struct _NODE_ *next;
@@ -16,15 +18,18 @@ typedef struct _NODE_ {
 
 typedef _NODE_ node;
 
+/* DECLARING THE SINGLY LINKED LIST STRUCTURE */
 typedef struct _SINGLY_LINKED_LIST_ {
     _NODE_ *head;
     _NODE_ *tail;
 } _LINKED_LIST_;
 
+/* FUNCTION TO INITIALIZE THE LIST */
 void initializeList(_LINKED_LIST_ *list){
     list->head = list->tail = NULL;
 }
 
+/* THIS FUNCTION ADDS A NODE AT THE HEAD OF THE LIST */
 int addHead(_LINKED_LIST_ *list, int val ){
     _NODE_ *newNode = (_NODE_*)malloc(sizeof(_NODE_));
     if(newNode == NULL) return FAILED;
@@ -38,8 +43,7 @@ int addHead(_LINKED_LIST_ *list, int val ){
     return SUCCESS;
 }
 
-
-
+/* THIS WILL PRINT THE WHOLE LINKED LIST */
 void displayLinkedList(_NODE_ *head){
     _NODE_ *node = head;
     while(node!=NULL){
@@ -49,22 +53,27 @@ void displayLinkedList(_NODE_ *head){
     printf("END\n");
 }
 
+/* REVERSE  THE DESIRED LINKED LIST */
 _NODE_ * reverseLinkedList(_LINKED_LIST_  *list){
-    _NODE_ *cur = list->head ;
-    _NODE_ *nt  = cur->next;
-    _NODE_ *prev = NULL;
+    if(list->head!=NULL){
+        _NODE_ *cur = list->head ;
+        _NODE_ *nt  = cur->next;
+        _NODE_ *prev = NULL;
 
-   if(list->head == NULL ) return NULL;
-   while(cur!=NULL){
-       nt = cur->next;
-       cur->next = prev;
-       prev = cur;
-       cur = nt;
-   }
-   list->head = prev;
-   return prev;
+        if(list->head == NULL ) return NULL;
+        while(cur!=NULL){
+           nt = cur->next;
+           cur->next = prev;
+           prev = cur;
+           cur = nt;
+        }
+        list->head = prev;
+        return prev;
+    }
+    return NULL;
 }
 
+/* RETURNS THE DESIRED NODE ON THE BASIS OF SOME DATA COMPARISON */
 _NODE_ * getNode(_LINKED_LIST_ *list, int data){
     //printf("%s\n", "in func getNode");
     _NODE_ *node = list->head;
@@ -76,6 +85,7 @@ _NODE_ * getNode(_LINKED_LIST_ *list, int data){
     return NULL;
 }
 
+/* THIS FUNCTION ADD A NODE CONINING THE PROVIDED VALUE IN THE DESIRED LINKED LIST AFTER A CERTAIN GIVEN NODE */
 int addNode(_LINKED_LIST_ *list ,_NODE_ *node,  int  data){
     _NODE_ *afterThis = getNode(list , data);
     //printf("%s\n", "in func addNode");
@@ -88,26 +98,32 @@ int addNode(_LINKED_LIST_ *list ,_NODE_ *node,  int  data){
     return SUCCESS;
 }
 
+/*  THIS FUNCTION DELETES A DESIRED NODE "SAFELY" FROM THE LIST */
 int deleteNode(_LINKED_LIST_ *list , _NODE_ *n ){
     _NODE_ *node = list->head;
-    if(n==list->head){
-        _NODE_ *tmp = list->head;
-        list->head = list->head->next;
-        free(tmp);
-    } else{
-        while(node->next!=n && node!=NULL ){
-            node = node->next;
-        }
-        if(node->next == n){
-            _NODE_ *tmp = node->next;
-            node->next = node->next->next;
+    if(n==list->head && n==list->tail){
+        freeList(list);
+    } else {
+        if(n==list->head){
+            _NODE_ *tmp = list->head;
+            list->head = list->head->next;
             free(tmp);
-            return SUCCESS;
+        } else{
+            while(node->next!=n && node!=NULL ){
+                node = node->next;
+            }
+            if(node->next == n){
+                _NODE_ *tmp = node->next;
+                node->next = node->next->next;
+                free(tmp);
+                return SUCCESS;
+            }
         }
     }
     return FAILED;
 }
 
+/* THIS FUNCTION FREE THE MEMORY ALLOCATED TO THE LIST SAFELY */
 void freeList(_LINKED_LIST_ *list){
     _NODE_ *node = list->head;
     while(node!=NULL){
@@ -117,7 +133,10 @@ void freeList(_LINKED_LIST_ *list){
     }
 }
 
+/* ENTRY POINT */
+/* REST OF THE COMMENTED INSTRUCTIONS ARE PROVIDED INSIDE A PRINTF STATEMENT */
 int main(){
+    printf(B_YELLOW);
     _LINKED_LIST_ *list;
     initializeList(list);
     int n, data;
@@ -128,6 +147,7 @@ int main(){
     }
     printf("\n");
     displayLinkedList(list->head);
+    /* JUST FOR DEMONSTRATION I'LL ASSUME THAT THE ADDED NODE VALUE WILL BE 56 ,.... DEFINITELY ONE CAN USER OTHER VALUES TOO. OR ONE TAKE INPUT FROM USERS DIRECTLY */
     printf("adding node with val 56 after a node containing data= your input\n");
     _NODE_ *newNode = (_NODE_*)malloc(sizeof(_NODE_));
     newNode->data = 56;
