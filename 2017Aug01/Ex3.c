@@ -1,3 +1,9 @@
+/*                              */
+/*    @kaushal_kishore          */
+/* 111601008@smail.iitpkd.ac.in */
+/*                              */
+/*         Ex3.c                */
+
 #include<stdio.h>
 #include<stdlib.h>
 #define FAILED (0)
