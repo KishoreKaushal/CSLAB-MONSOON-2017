@@ -9,15 +9,14 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+#include<time.h>
 #define FAILED (0)
 #define SUCCESS (1)
 
 
 /* defining a node type */
 typedef struct _NODE_{
-    /* *data : can be used if you want to point to any type of data*/
-    /*whether be a structure of two int or a structure with a string and a double value. */
-    void *data;
+    int data;
     /* next pointer points to next element in the list*/
     struct _NODE_ *next;
 } _NODE_;
@@ -34,17 +33,13 @@ typedef struct _SINGLY_LINKED_LIST_{
 typedef _NODE_ _CNODE_;
 typedef _LINKED_LIST_ _CLINKED_LIST_;
 
-typedef void (*DISPLAY)(void*);         /* DISPLAY: type cast a function to void(*)(void*) */
-typedef int (*COMPARE)(void* , void*);  /* COMPARE: type cast a function to int(*)(void*, void*) */
-
-
 /* initializes a singly circular linked list*/
 void initializeCList(_CLINKED_LIST_ *Clist){
     Clist->head = Clist->tail = Clist->current = NULL;
 }
 
 /* add a head element to the circular linked list */
-int addCHead(_CLINKED_LIST_ *Clist, void *data){
+int addCHead(_CLINKED_LIST_ *Clist, int data){
     _CNODE_ *newCnode = (_CNODE_ *)malloc(sizeof(_CNODE_));
     if(newCnode == NULL) return FAILED; /*if memory allocation failed*/
     newCnode->next= NULL;   newCnode->data = data;
@@ -62,7 +57,7 @@ int addCHead(_CLINKED_LIST_ *Clist, void *data){
 }
 
 /* add a tail element to the circular linked list */
-int addCTail(_CLINKED_LIST_ *Clist, void *data){
+int addCTail(_CLINKED_LIST_ *Clist, int data){
     _CNODE_ *newCnode = (_CNODE_ *)malloc(sizeof(_CNODE_));
     if(newCnode == NULL) return FAILED;
     newCnode->next = NULL;  newCnode->data = data;
@@ -108,38 +103,48 @@ int removeCNode(_CLINKED_LIST_ *Clist, _CNODE_ *cnode){
 
 /* returns a node on the basis of some comparison */
 /* compare here is the function pointer */
-_CNODE_ *getCNode(const _CLINKED_LIST_ *Clist, COMPARE compare ,  void *data){
+_CNODE_ *getCNode(const _CLINKED_LIST_ *Clist, int data){
     _CNODE_ *cnode = Clist->head;
 
     if(cnode !=NULL){
-        if(compare(cnode->data , data)) return cnode;
+        if(cnode->data == data) return cnode;
         cnode = cnode->next;
         while(cnode != Clist->tail){
-            if(compare(cnode->data , data)) return cnode;
+            if(cnode->data == data) return cnode;
             cnode = cnode->next;
         }
-        if(compare(cnode->data , data)) return cnode;
+        if(cnode->data == data) return cnode;
     }
     return NULL;
 }
 
 
 /* display the circular linked list */
-/* display here is the function pointer */
-void displayCLinkedList(const _CLINKED_LIST_ *Clist, DISPLAY display){
+void displayCLinkedList(const _CLINKED_LIST_ *Clist){
     _CNODE_ *cnode = Clist->head;
-    printf("%s\n", "Clist: -head-TO-tail-" );
-    if(cnode!=NULL){
-        display(cnode->data);
-        cnode = cnode->next;
-        while(cnode != Clist->tail){
-            display(cnode->data);
+    //printf("%s\n", "Clist: -head-TO-tail-" );
+    /*if only one element*/
+    printf("[HEAD]--> ");
+
+    if(Clist->head == Clist->tail){
+        printf("%d" , cnode->data);
+    } else {
+        if(cnode!=NULL){
+            printf("%d--> ", cnode->data);
             cnode = cnode->next;
+            while(cnode != Clist->tail){
+                printf("%d--> " , cnode->data);
+                cnode = cnode->next;
+            }
+            printf("%d" , cnode->data);
         }
-        display(cnode->data);
     }
-    printf("\n");
+
+    printf("--> [TAIL]--> [HEAD]\n");
+//    printf("\n");
 }
+
+
 
 /* returns 1 if the circular linked list is empty*/
 int ClistEmpty(const _CLINKED_LIST_ *Clist){
@@ -148,68 +153,80 @@ int ClistEmpty(const _CLINKED_LIST_ *Clist){
 
 /* free the linked list from the memory */
 void freeCList(_CLINKED_LIST_ *Clist){
-    _CNODE_ *cnode = Clist->head;
-    Clist->tail->next = NULL;
-    while(cnode != NULL){
-        Clist->head  = Clist->head->next;
-        free(cnode);
-        cnode = Clist->head;
+    if(!ClistEmpty(Clist)){
+        _CNODE_ *cnode = Clist->head;
+        Clist->tail->next = NULL;
+        while(cnode != NULL){
+            Clist->head  = Clist->head->next;
+            free(cnode);
+            cnode = Clist->head;
+        }
+        Clist->head = Clist->tail = NULL;
     }
-    Clist->head = Clist->tail = NULL;
 }
 
-/* structure of the desired data */
-typedef struct student {
-    int val;
-}   student;
-
-/* comparison function for the desired data structure */
-int comparestudent(student *e1, student *e2) {
-    if(e1->val==e2->val) { return SUCCESS; }
-    else return FAILED;
-}
-
-/* display fucntion of the desired data structure */
-void displaystudent(student *e) {
-    printf("Val: %d\n",  e->val);
+/* merge the two circular linked list as required by the question */
+void mergeClist( _CLINKED_LIST_ *Clist1 , _CLINKED_LIST_ *Clist2 ){
+    if(Clist1->head == Clist1->tail){
+        Clist1->head->next = Clist2->head;
+        Clist1->tail = Clist2->head;
+        Clist2->head->next = Clist1->head;
+    }else if(Clist2->head != NULL){
+        _CNODE_ *current1 = Clist1->head; _CNODE_ *current2 = Clist2->head;
+        _CNODE_ *Clist1_NXT  , *Clist2_NXT;
+        Clist1_NXT = Clist1->head->next;    Clist2_NXT = Clist2->head->next;
+        while(current2!=Clist2->tail){
+            current1->next = current2;
+            current2->next = Clist1_NXT;
+            current1 = Clist1_NXT;
+            current2 = Clist2_NXT;
+            Clist1_NXT = Clist1_NXT->next;
+            Clist2_NXT = Clist2_NXT->next;
+        }
+        current1->next = current2 ;
+        current2->next = Clist1_NXT;
+        if(Clist1_NXT == Clist1->head) {
+            Clist1->tail = current2;
+        }
+        printf("Clist1_NXT: %d\n", Clist1_NXT->data );
+    }
+    initializeCList(Clist2);
 }
 
 
 int main(){
-    _CLINKED_LIST_ Clist; int temp;
-    initializeCList(&Clist);
-    printf("List Empty: %d\n" , ClistEmpty(&Clist));
-    student *samuel = (student*) malloc(sizeof(student));
-    samuel->val = 32;
-    student *sally = (student*) malloc(sizeof(student));
-    sally->val = 28;
-    student *susan = (student*) malloc(sizeof(student));
-    susan->val = 45;
-    printf("List Empty: %d\n" , ClistEmpty(&Clist));
-    displayCLinkedList(&Clist, (DISPLAY)displaystudent);
-    addCHead(&Clist , samuel);
-
-    addCHead(&Clist , sally);
-    displayCLinkedList(&Clist, (DISPLAY)displaystudent);
-
-    addCHead(&Clist , susan);
-    addCTail(&Clist, sally);
-    displayCLinkedList(&Clist, (DISPLAY)displaystudent);
-    printf("\nNow the searching begins...\n");
-
-    student s;
-    _CNODE_ *node ;
-    while(1){
-        scanf(" %d" , &temp);   s.val = temp;
-        node=getCNode(&Clist , comparestudent , &s);
-        if(node==NULL) {
-            printf("The list doesn't contains  %d.\n", temp); break;
-        }
-        else printf("The list contains this element.\n");
+    srand(time(NULL));  // seed for random number generation
+    _CLINKED_LIST_ Clist1 , Clist2;
+    initializeCList(&Clist1); initializeCList(&Clist2);
+    int n1, n2 , data, temp;
+    printf("Enter the size of both the lists (larger one first): \n");
+    scanf("%d %d" , &n1 , &n2);
+    if(n1==0|| n2==0){  printf("Can't be zero.\n"); exit(1);}
+    if(n1<n2){
+        printf("n1 < n2 : therefore swapping the size.\n");
+        temp = n1; n1 = n2; n2 = temp;
     }
+    printf("Enter the elements of larger list(n=%d): \n" , n1);
+    for (int i=0; i<n1; i++){
+        scanf(" %d" , &data);
+        addCHead(&Clist1,  data);
+    }
+    printf("C-LIST1: \n");
+    displayCLinkedList(&Clist1);
+    printf("Enter the elements of larger list(n=%d): \n" , n2);
+    for (int i=0; i<n2; i++){
+        scanf(" %d" , &data);
+        addCHead(&Clist2, data);
+    }
+    printf("C-LIST2: \n");
+    displayCLinkedList(&Clist2);
 
+    printf("merging Clist2 in Clist1: \n");
+    mergeClist(&Clist1,  &Clist2);
+    printf("merged-List: \n");
+    displayCLinkedList(&Clist1);
 
-    freeCList(&Clist);
-    printf("List Empty: %d\n" , ClistEmpty(&Clist));
+    freeCList(&Clist1);
+    //freeCList(&Clist2);
     return 0;
 }
