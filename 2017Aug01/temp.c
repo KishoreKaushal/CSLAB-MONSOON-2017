@@ -108,6 +108,16 @@ int removeCNode(_CLINKED_LIST_ *Clist, _CNODE_ *cnode){
 
 /* returns a node on the basis of some comparison */
 /* compare here is the function pointer */
+/*
+_CNODE_ *getCNode(const _CLINKED_LIST_ *Clist, COMPARE compare ,  void *data){
+    _CNODE_ *cnode = Clist->head;
+    while(cnode != Clist->head){
+        if(compare(cnode->data, data))  return cnode;
+        cnode = cnode->next;
+    }
+    return NULL;
+}
+*/
 _CNODE_ *getCNode(const _CLINKED_LIST_ *Clist, COMPARE compare ,  void *data){
     _CNODE_ *cnode = Clist->head;
 
