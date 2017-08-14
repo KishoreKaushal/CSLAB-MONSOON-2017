@@ -95,23 +95,26 @@ void removeDNode(_DLINKED_LIST_ *Dlist, _DNODE_ *Dnode){
 /* REVERSE  THE DESIRED DOUBlY LINKED LIST  AND RETURNS THE HEAD POINTER OF THE LIST*/
 _DNODE_ * reverseDLinkedList(_DLINKED_LIST_  *Dlist){
     if(Dlist->head!=NULL){
-        _DNODE_ *head = Dlist->head;
-        _DNODE_ *tail = Dlist->tail;
-        _DNODE_ *cur = tail;
-        initializeDList(Dlist);
-        Dlist->head = tail;
-        while(tail!=head){
-            cur = tail;
-            tail = tail->prev;
-            tail->next = cur->prev = NULL;
-            Dlist->tail->next = cur ;
-            cur->prev = Dlist->tail;
-            Dlist->tail = cur;
+        _DNODE_ *tail = Dlist->head; /*will be tail after reversing*/
+        _DNODE_ *cur = Dlist->head;
+        _DNODE_ *nt = cur->next;
+        _DNODE_ *prev = NULL;
+
+        if(Dlist->head == NULL ) return NULL ;
+        while(cur!=NULL){
+            nt = cur->next;
+            cur->next = prev;
+            prev = cur;
+            cur = nt;
         }
-        Dlist->tail->next = head;
-        head->prev = Dlist->tail;
-        Dlist->tail = Dlist->tail->next;
-        return Dlist->head;
+        Dlist->head = prev;
+        Dlist->tail = tail;
+        _DNODE_ *temp=Dlist->head;
+        while(temp!=Dlist->tail){
+            temp->next->prev = temp;
+            temp = temp->next;
+        }
+        return prev;
     }
     return NULL;
 }
@@ -210,13 +213,20 @@ int main(int argc, char const *argv[]) {
 
     printf("Input node value to delete: \n");
     scanf(" %d" , &val);
-    printf("\nDeleting All Nodes with data-value = %d", val);
+    printf("\nDeleting All Nodes with data-value = %d\n", val);
 
     _DNODE_ *temp = getDNode(&Dlist , val);
-    do{
-        removeDNode(&Dlist , temp);
-        temp = getDNode(&Dlist , val);
-    } while(temp!=NULL);
+    if(temp!=NULL){
+        do{
+            removeDNode(&Dlist , temp);
+            temp = getDNode(&Dlist , val);
+        } while(temp!=NULL);
+    } else {
+        printf("Desired data-value is not in the list.\n");
+    }
+    displayDLinkedList(&Dlist);
+    printf("Reversing The DList:\n");
+    reverseDLinkedList(&Dlist);
 
     displayDLinkedList(&Dlist);
     freeDList(&Dlist);
