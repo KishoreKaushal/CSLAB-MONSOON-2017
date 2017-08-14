@@ -182,9 +182,13 @@ void freeDList(_DLINKED_LIST_ * Dlist){
 int main(int argc, char const *argv[]) {
     srand(time(NULL));  // seed for random number generation
     int n, data, val;
+    printf("Enter the size of the list: ");
     scanf("%d" , &n);
     _DLINKED_LIST_ Dlist;
     initializeDList(&Dlist);
+
+    /*----GENERATING THE LIST RANDOMLY-----*/
+    /*----REDUCES HUMAN EFFORT ------------*/
     for(int i=0; i<n/2; i++){
         data = rand()%10+10;
         printf("Adding Head: %d\n" ,data);
@@ -196,6 +200,20 @@ int main(int argc, char const *argv[]) {
         printf("Adding Tail: %d\n" ,data);
         addDTail(&Dlist , data);
     }
+
+    /* UNCOMMENT THE FOLLOWING CODE TO TAKE INPUT FROM USERS
+    AND COMMENT THE CODE FOR RANDOM INITIALIZATION */
+
+    /*-------------------------------------*/
+    /*
+    for(int i=0; i<n; i++){
+        scanf(" %d" , &data);
+        printf("Adding Head: %d\n" ,data);
+        addDHead(&Dlist , data);
+    }
+    */
+    /*-------------------------------------*/
+
     displayDLinkedList(&Dlist);
 
     printf("%s\n","Add a node after a node containing data=val\nInput Val: " );

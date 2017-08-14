@@ -2,9 +2,9 @@
 /*    @kaushal_kishore          */
 /* 111601008@smail.iitpkd.ac.in */
 /*                              */
-/*         Ex4.c                */
+/*         Ex6.c                */
 
-/* required function in this exercise is   getCNode() */
+/* required function in this exercise is   mergeClist() */
 
 #include<stdio.h>
 #include<stdlib.h>
@@ -188,7 +188,6 @@ void mergeClist( _CLINKED_LIST_ *Clist1 , _CLINKED_LIST_ *Clist2 ){
         if(Clist1_NXT == Clist1->head) {
             Clist1->tail = current2;
         }
-        printf("Clist1_NXT: %d\n", Clist1_NXT->data );
     }
     initializeCList(Clist2);
 }
@@ -227,6 +226,6 @@ int main(){
     displayCLinkedList(&Clist1);
 
     freeCList(&Clist1);
-    //freeCList(&Clist2);
+    freeCList(&Clist2);
     return 0;
 }
