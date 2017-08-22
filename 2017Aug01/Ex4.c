@@ -188,7 +188,10 @@ int main(){
     printf("List Empty: %d\n" , ClistEmpty(&Clist));
     displayCLinkedList(&Clist, (DISPLAY)displaystudent);
     addCHead(&Clist , samuel);
+
     addCHead(&Clist , sally);
+    displayCLinkedList(&Clist, (DISPLAY)displaystudent);
+
     addCHead(&Clist , susan);
     addCTail(&Clist, sally);
     displayCLinkedList(&Clist, (DISPLAY)displaystudent);
