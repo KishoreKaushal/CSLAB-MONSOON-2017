@@ -138,25 +138,22 @@ void freeList(_LINKED_LIST_ *list){
 int main(){
     printf(B_YELLOW);
     _LINKED_LIST_ *list;
+    ​ int a[] = {1,2,3,3,4,5,1,6,7,3};
     initializeList(list);
     int n, data;
-    scanf(" %d" , &n);
+//    scanf(" %d" , &n);
+    n=10;
     for(int i=0; i<n; i++){
-        scanf(" %d" , &data);
-        addHead(list , data);
+        addHead(list , a[i]);
     }
     printf("\n");
     displayLinkedList(list->head);
     /* JUST FOR DEMONSTRATION I'LL ASSUME THAT THE ADDED NODE VALUE WILL BE 56 ,.... DEFINITELY ONE CAN USER OTHER VALUES TOO. OR ONE TAKE INPUT FROM USERS DIRECTLY */
-    printf("adding node with val 9 after a node containing data= your input\n");
-    printf("\nEnter the node after which you want to add the new Node: ");
+    printf("adding node with val 3 after a node containing data= 9\n");
     _NODE_ *newNode = (_NODE_*)malloc(sizeof(_NODE_));
+    newNode->data = 9;
     int val;
-
-    scanf(" %d", &val);
-    printf("\nEnter the node value: ");
-
-    scanf(" %d" , &newNode->data);
+    scanf(" %d" , &val);
 
     if(addNode(list , newNode , val)==0){
         printf("Failed To add Node\n");
@@ -165,9 +162,9 @@ int main(){
         displayLinkedList(list->head);
     }
 
-    printf("\ndeleting all nodes with data-value = your - input\n");
-    scanf(" %d" , &val);
-    //val = 3;
+    printf("\ndeleting all nodes with data-value = 3\n");
+    //scanf(" %d" , &val);
+    val=3
     _NODE_ *temp = getNode(list , val);
     do{
         deleteNode(list , temp);

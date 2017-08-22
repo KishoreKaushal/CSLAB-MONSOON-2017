@@ -148,15 +148,11 @@ int main(){
     printf("\n");
     displayLinkedList(list->head);
     /* JUST FOR DEMONSTRATION I'LL ASSUME THAT THE ADDED NODE VALUE WILL BE 56 ,.... DEFINITELY ONE CAN USER OTHER VALUES TOO. OR ONE TAKE INPUT FROM USERS DIRECTLY */
-    printf("adding node with val 9 after a node containing data= your input\n");
-    printf("\nEnter the node after which you want to add the new Node: ");
+    printf("adding node with val 56 after a node containing data= your input\n");
     _NODE_ *newNode = (_NODE_*)malloc(sizeof(_NODE_));
+    newNode->data = 56;
     int val;
-
-    scanf(" %d", &val);
-    printf("\nEnter the node value: ");
-
-    scanf(" %d" , &newNode->data);
+    scanf(" %d" , &val);
 
     if(addNode(list , newNode , val)==0){
         printf("Failed To add Node\n");
@@ -165,9 +161,8 @@ int main(){
         displayLinkedList(list->head);
     }
 
-    printf("\ndeleting all nodes with data-value = your - input\n");
+    printf("\ndeleting all nodes with data-value = your input\n");
     scanf(" %d" , &val);
-    //val = 3;
     _NODE_ *temp = getNode(list , val);
     do{
         deleteNode(list , temp);
