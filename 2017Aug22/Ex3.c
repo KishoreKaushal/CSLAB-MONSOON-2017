@@ -15,7 +15,7 @@ void print_recursively(lli n){
         print_recursively(n-1);
     }
 }
-
+/*entry point*/
 int main(){
     lli n;
     scanf(" %lld" , &n);
