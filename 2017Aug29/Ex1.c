@@ -21,7 +21,6 @@ typedef struct _STACK_{
     int len;
 } _STACK_;
 
-
 typedef struct  string {
         char data[100];
         int len;
@@ -34,7 +33,7 @@ int push(_STACK_ *, void *);                    /* Pushes an element on the head
 void displayStack(const _STACK_ *, DISPLAY );         /* Displays the whole stack from head to tail */
 void destroyStack(_STACK_ *);                   /* Silently destroy the whole stack */
 int stackEmpty(const _STACK_ *);                /* returns 1 if stack is empty */
-
+void stackTop(const _STACK_ *);             /* prints the stack top data */
 
 int stackEmpty(const _STACK_ *stack) {
     return (stack->head == NULL);
