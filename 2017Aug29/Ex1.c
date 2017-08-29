@@ -91,7 +91,7 @@ void displayStack(const _STACK_ *stack , DISPLAY display) {
     printf("\n");
 }
 
-void stackTop(_STACK_ *stack){
+void stackTop(const _STACK_ *stack){
     if(!stackEmpty(stack)){
         string *str = (string*)(stack->head->data);
         printf("%s\n", str->data);
@@ -158,7 +158,7 @@ int main(){
     for (int i=0; i<n; i++){
         movie = (string*) malloc(sizeof(string));
         printf("Enter the movie name: \n");
-        scanf(" %100[a-zA-Z0-9 ]", movie->data);
+        scanf(" %100[^\n]", movie->data);
         movie->len=strlen(movie->data);
         push(&stack , movie);
     }
