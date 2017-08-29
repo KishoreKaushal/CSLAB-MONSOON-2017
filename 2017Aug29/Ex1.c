@@ -123,15 +123,16 @@ void displayString(string *s) {
         printf("MOVIE: %s\tLEN: %d\n", s->data, s->len);
 }
 
+//entry point
 
 int main(){
     int n;
 	_STACK_ stack;
-    initializeStack(&stack);
-    string *movie;
+    initializeStack(&stack);    //initialize stack
+    string *movie;  // movie pointer
     printf("Enter the number of movie: "); scanf("%d" , &n);
 
-
+    // push into stack
     for (int i=0; i<n; i++){
         movie = (string*) malloc(sizeof(string));
         printf("Enter the movie name: ");
@@ -139,21 +140,22 @@ int main(){
         movie->len=strlen(movie->data);
         push(&stack , movie);
     }
-
+    // display the whole stack
     displayStack(&stack, (DISPLAY)displayString); //type casting is must
-
-    printf("%s\n","STACKTOP: " );stackTop(&stack);
+    // print the stack top
+    printf("%s","STACKTOP: " );stackTop(&stack);
 
     string *str;
+    // popp operations
     for(int i=0; i<=n; i++){
         str = (string*)pop(&stack);
         printf("Popped: %s, STACK LENGTH: %d\n", str->data, stack.len);
         free(str);
     }
-
+    //repeat the process again
     printf("Enter the number of movie: "); scanf("%d" , &n);
 
-
+    // push a few more movies
     for (int i=0; i<n; i++){
         movie = (string*) malloc(sizeof(string));
         printf("Enter the movie name: \n");
@@ -168,6 +170,8 @@ int main(){
         free(str);
     }
 */
+
+    // print the stack length
     printf("\nSTACK LENGTH: %d\n",  stack.len);
 
     destroyStack(&stack);
