@@ -1,3 +1,10 @@
+///////// Ex2.c //////////////////
+// Kaushal Kishore              //
+// 111601008@smail.iitpkd.ac.in //
+//     gcc -std=c11  Ex2.c      //
+//////////////////////////////////
+
+
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
@@ -35,16 +42,19 @@ void destroyStack(_STACK_ *);                   /* Silently destroy the whole st
 int stackEmpty(const _STACK_ *);                /* returns 1 if stack is empty */
 void stackTop(const _STACK_ *);             /* prints the stack top data */
 
+/* returns 1 if the stack s Empty */
 int stackEmpty(const _STACK_ *stack) {
     return (stack->head == NULL);
 }
 
+/* Initializes the stack */
 void initializeStack(_STACK_ *stack){
     stack->head = NULL;
     stack->tail = NULL;
     stack->len = 0;
 }
 
+/* push data onto the stack */
 int push(_STACK_ *stack, void *data){
     _NODE_ *newNode = (_NODE_ *)malloc(sizeof(_NODE_));
     if(newNode == NULL ) return FAILED;
@@ -59,6 +69,7 @@ int push(_STACK_ *stack, void *data){
     stack->len += 1;
     return SUCCESS;
 }
+
 
 void *pop(_STACK_ *stack) {
     _NODE_ *node = stack->head ;
