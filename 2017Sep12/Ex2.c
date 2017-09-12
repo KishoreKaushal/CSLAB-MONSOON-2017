@@ -1,3 +1,8 @@
+// NAME  : Kaushal Kishore
+//  EMAIL : 111601008@smail.iitpkd.ac.in
+//  CCFLAGS: -std=c11
+
+
 #include<stdio.h>
 #include<stdlib.h>
 

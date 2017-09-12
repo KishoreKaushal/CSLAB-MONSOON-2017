@@ -2,6 +2,7 @@
 	NAME: Kaushal Kishore
 	EMAIL: 111601008@smail.iitpkd.ac.in
 	TOPIC: Merge SORT
+    CCFLAGS: -std=c11
 */
 
 #include<stdio.h>
