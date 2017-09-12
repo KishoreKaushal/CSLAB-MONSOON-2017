@@ -1,3 +1,10 @@
+///////// Ex4.c //////////////////
+// Kaushal Kishore              //
+// 111601008@smail.iitpkd.ac.in //
+//     gcc -std=c11  Ex4.c      //
+//////////////////////////////////
+
+
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
@@ -145,7 +152,7 @@ int main(){
     char *ptr = postfix;
     printf("Your Expression: %s\n", Expression);
     for (size_t i=0; i<len; i++){
-        if(isdigit(Expression[i])){
+        if(isalnum(Expression[i])){
             *ptr++ = Expression[i];
         } else {
             if(stackEmpty(&s) || (stackTop(&s)=='(' && Expression[i]!='(')) {
