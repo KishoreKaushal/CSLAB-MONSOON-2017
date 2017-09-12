@@ -45,6 +45,5 @@ int main(){
     bubbleSort(ptr , size);			// using the bubble sort algorithm to sort the data
     printf("\nSORTED ARRAY: ");		
     printArray(ptr , size);			// print the sorted array	
-    free(ptr);
     return 0;
 }

@@ -75,5 +75,6 @@ int main(){
     puts("Sorted array");
     mergeSort(A , 0 , n-1);	// MERGE SORT THE ARRAY
     printArray(A, n);	// PRINT THE SORTED ARRAY
+    free(A);
     return 0;		// RETURN TO THE SYSTEM
 }
