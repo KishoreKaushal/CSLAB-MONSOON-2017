@@ -1,6 +1,13 @@
+// Ex4
+// Kaushal Kishore
+// 111601008@smail.iitpkd.ac.in
+
+
 #include<stdio.h>
 #include<stdlib.h>
 
+
+// UTILITY FUNCTION : Print the 2-D array
 void print2Darray(int **a , int r, int c){
     printf("YOUR MATRIX: \n");
     for (int i=0; i<r; i++){
@@ -12,60 +19,83 @@ void print2Darray(int **a , int r, int c){
 }
 
 
-// order = 1 refers to ascending order
-void searchElementOrder(int **a , int r, int c, int order , int n){
-    int low_x=0, low_y=0;
-    int high_y = r-1 , high_x = c-1;
-    int mid_x = (low_x + high_x)/2 , mid_y = (low_y+high_y)/2;
-    if(order==1){
-        while(low_x<=high_x || low_y<=high_y){
-            mid_x = (low_x + high_x)/2 ; mid_y = (low_y+high_y)/2;
-            if(a[mid_y][mid_x] == n){
-                printf("Index starts from 0.\nElement Found At index: (%d , %d)\n", mid_y , mid_x);
-                return;
-            } else if (a[mid_y][mid_x] > n) {
-                high_x = mid_x;
-                high_y = mid_y;
-            } else {
-                low_x =  mid_x;
-                low_y = mid_y;
-            }
-        }
-    } else {
-        while(low_x<=high_x || low_y <= high_y){
-            mid_x = (low_x + high_x)/2 , mid_y = (low_y+high_y)/2;
-            if(a[mid_y][mid_x] == n) {
-                printf("Index starts from zero.\nElement Found At index: (%d , %d)\n" , mid_y, mid_x);
-                return ;
-            } else if(a[mid_y][mid_x] > n) {
-                low_x = mid_x;
-                low_y = mid_y;
-            } else {
-                high_x = mid_x;
-                high_y = mid_y;
-            }
-        }
-    
+// Binary Search Algorithm for Ascending order
+int binarySearchAsc(int *arr , int low , int high , int ele){
+    while (low <= high)
+    {
+        int mid = low + (high-low)/2;
+        if (arr[mid] == ele) 
+            return mid;    
+        if (arr[mid] < ele) 
+            low = mid + 1;  
+        else
+            high = mid - 1; 
     }
-    printf("Element Not Found..\n");
+    return -1; 
+}
+
+// Binary Search Algorithm for Descending Order
+int binarySearchDesc(int *arr , int low , int high , int ele){
+    while (low <= high)
+    {
+        int mid = low + (high-low)/2;
+        if (arr[mid] == ele) 
+            return mid;    
+        if (arr[mid] > ele) 
+            low = mid + 1;  
+        else
+            high = mid - 1; 
+    }
+    return -1; 
+}
+
+
+// complexity = O(n*log(n))
+// order = 1 refers to ascending order
+// this function uses Binary-Search algorithm as its part
+void searchElementOrder(int **a , int r, int c, int order , int ele){
+    int found = 0, index;
+    if(order==1){
+        for(int i=0 ; i < r; i++){
+            index = binarySearchAsc(a[i] , 0 , c-1 , ele);
+            if(index!=-1) {
+                found =1;
+                printf("Index: (row, col) : (%d, %d)\n", i , index);
+            }
+        }        
+    } else {
+        for(int i=0 ; i < r; i++){
+            index = binarySearchDesc(a[i] , 0 , c-1 , ele);
+            if(index!=-1) {
+                found =1;
+                printf("Index: (row, col) : (%d, %d)\n", i , index);
+            }
+        }        
+    }
+    if(!found) printf("Element Not Found..\n");
     return ;
 }
 
 int main(){
-    
+    // asc = 0 : means array is currently not initialized or not in ascending order
+    // desc = 0 : similarly this means array is currently uninitialized or not in descending order
+    // clearly asc = 1 and desc =1 can't be true at same time for our desired array therefore
+    //                  if this situation arise then set err = 1 
+    // err = 1 : error state i.e., desc and asc are both equal to 1 
+
     int i,j, k, asc=0 , desc=0 ;
     int err=0;
-    int r, c;
+    int r, c;       // r = no. of rows and c=no. of cols
     printf("row: ");
     scanf(" %d" , &r);
     printf("col: ");
     scanf(" %d" , &c);
 
+    // ptr = 2-D array
     int **ptr = (int **) malloc(sizeof(int*)*r);
 
+    // taking input  the matrix and checking for the desired error state simultaneously
     ptr[0] = (int *) malloc(sizeof(int)*c);
-    // ptr[1] = (int *) malloc(sizeof(int)*c);
-
     printf("Enter the matrix: \n");
     scanf(" %d", &ptr[0][0]);
     for (int j=1; j<c; j++){
@@ -77,23 +107,27 @@ int main(){
             asc=1;
         } else if(ptr[0][j-1]>ptr[0][j]) {
             desc=1;
-        }
+        } else err=1;
     }
     
     if(!err){
-  
         for (i=1; i<r; i++){
             ptr[i] = (int *)malloc(sizeof(int)*c);
             scanf(" %d" , &ptr[i][0]);
-            if ((asc && ( ptr[i-1][0]>ptr[i][0])) || (desc && ( ptr[i-1][0]<ptr[i][0] ))) {
+            if (    (asc && ( ptr[i-1][0]>ptr[i][0])) 
+                    || (desc && ( ptr[i-1][0]<ptr[i][0] )) 
+                    || (ptr[i-1][0] == ptr[i][0]) 
+                ) {
                 err = 1;
                 break;
             }
-
             for (j=1; j<c; j++){
                 scanf(" %d", &ptr[i][j]);
-                if( (asc && ( (ptr[i][j-1] > ptr[i][j]) || (ptr[i-1][j] > ptr[i][j] ) ) ) 
-                        ||  (desc && ( (ptr[i][j-1] < ptr[i][j] ) || ( ptr[i-1][j] < ptr[i][j])))) {
+                if( (asc && ( (ptr[i][j-1] >= ptr[i][j]) 
+                        || (ptr[i-1][j] >= ptr[i][j] ) ) ) 
+                        ||  (desc && ( (ptr[i][j-1] <= ptr[i][j] ) 
+                        || ( ptr[i-1][j] <= ptr[i][j])))
+                    ) {
                     err = 1;
                     break;
                 }
@@ -108,11 +142,12 @@ int main(){
         int n;
         /* required operation will take place */ 
         printf("Enter a number you want to search for: ");
-        scanf("%d", &n);
+        scanf(" %d", &n);
         searchElementOrder(ptr , r, c, asc, n);
     }
     else puts("ERROR: Matrix is not in the correct order. Must be either decreasing or increasing.");
 
+    // freeing the memory
     for (i=0; i<r ; i++){
             if(ptr[i]) free(ptr[i]);
     }
