@@ -11,6 +11,46 @@ void print2Darray(int **a , int r, int c){
     }
 }
 
+
+// order = 1 refers to ascending order
+void searchElementOrder(int **a , int r, int c, int order , int n){
+    int low_x=0, low_y=0;
+    int high_y = r-1 , high_x = c-1;
+    int mid_x = (low_x + high_x)/2 , mid_y = (low_y+high_y)/2;
+    if(order==1){
+        while(low_x<=high_x || low_y<=high_y){
+            mid_x = (low_x + high_x)/2 ; mid_y = (low_y+high_y)/2;
+            if(a[mid_y][mid_x] == n){
+                printf("Index starts from 0.\nElement Found At index: (%d , %d)\n", mid_y , mid_x);
+                return;
+            } else if (a[mid_y][mid_x] > n) {
+                high_x = mid_x;
+                high_y = mid_y;
+            } else {
+                low_x =  mid_x;
+                low_y = mid_y;
+            }
+        }
+    } else {
+        while(low_x<=high_x || low_y <= high_y){
+            mid_x = (low_x + high_x)/2 , mid_y = (low_y+high_y)/2;
+            if(a[mid_y][mid_x] == n) {
+                printf("Index starts from zero.\nElement Found At index: (%d , %d)\n" , mid_y, mid_x);
+                return ;
+            } else if(a[mid_y][mid_x] > n) {
+                low_x = mid_x;
+                low_y = mid_y;
+            } else {
+                high_x = mid_x;
+                high_y = mid_y;
+            }
+        }
+    
+    }
+    printf("Element Not Found..\n");
+    return ;
+}
+
 int main(){
     
     int i,j, k, asc=0 , desc=0 ;
@@ -69,7 +109,7 @@ int main(){
         /* required operation will take place */ 
         printf("Enter a number you want to search for: ");
         scanf("%d", &n);
-        searchElement(ptr , r, c, n);
+        searchElementOrder(ptr , r, c, asc, n);
     }
     else puts("ERROR: Matrix is not in the correct order. Must be either decreasing or increasing.");
 
