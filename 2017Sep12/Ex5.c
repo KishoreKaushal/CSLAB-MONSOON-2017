@@ -1,7 +1,7 @@
 //              Ex5                  //
 //      Name : Kaushal Kishore       //
 //      111601008@smail.iitpkd.ac.in //
-
+//      CFLAGS : -std=c11            //
 /* Objective :finding element in a rotated ascending array
  *  by an algoritm having O(log(n)) complexity. */
 
