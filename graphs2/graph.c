@@ -4,6 +4,7 @@
 #include<string.h>
 #include"graph.h"
 #include "dataStructures.h"
+#include "queue.c"
 
 // initializeGraph
 void initializeGraph(_GRAPH_ *graph) {
@@ -41,8 +42,9 @@ void createGraphFromAM(_GRAPH_ *graph) {
     for (int i=0; i<graph->vc ; i++){
         graph->node[i] = (_GNODE_ *)malloc(sizeof(_GNODE_));
         graph->node[i]->adjNum=0;
+        graph->node[i]->nodeNumber = i;
         graph->node[i]->adjacent = (_GNODE_ **)malloc(sizeof(_GNODE_)) ;
-        for (int j=i; j<graph->vc ; j++){
+        for (int j=0; j<graph->vc ; j++){
             if(graph->AM[i][j]==1){
                 graph->node[i]->adjNum++;
                 graph->node[i]->adjacent = (_GNODE_ **)realloc( graph->node[i]->adjacent , sizeof(_GNODE_) * (graph->node[i]->adjNum+1));
@@ -84,9 +86,21 @@ int readGraphFromTxt(char *filename , _GRAPH_ *graph){
     if(AM != NULL) graph->AM = AM;
     if(gname != NULL )  graph->name = gname;
     graph->vc = vc;
+    createGraphFromAM(graph);
     fclose(fp);
     return vc;
 }
+
+void printAllGraphNodeNumber(const _GRAPH_ *graph) {
+    printf("NODES IN THE GRAPH: ");
+    for (int i=0; i<graph->vc ; i++) {
+        printf("\nNode Number : %d\n\t\tAdjacent Nodes: ",graph->node[i]->nodeNumber);
+        for (int j=0; j<graph->node[i]->adjNum; j++){
+            printf("%d , ", graph->node[i]->adjacent[j]);
+        }
+    }
+}
+
 /*
 Breadth-First-Search(Graph, Root, Goal):
 
@@ -108,6 +122,26 @@ Breadth-First-Search(Graph, Root, Goal):
             }
         }
     }
-
-int BreadthFirstSearch(_GRAPH_ , )
 */
+
+int BreadthFirstSearch(_GRAPH_ * graph , _GNODE_ *root , _GNODE_ *goal){
+    _LINKED_LIST_ checked;
+    initializeList(&checked);
+    _QUEUE_ q;
+    initializeQueue(&q);
+    addHead(&checked , root);
+    enqueue(&q, root);
+    while (!queueEmpty(&q)){
+        _GNODE_ * current = (_GNODE_ *) dequeue(&q);
+        if(current==goal){
+            return 1;
+        }
+        for (int i=0; i<current->adjNum; i++){
+            if(!searchList(&checked, current->adjacent[i])){
+                addHead(&checked , current->adjacent[i]);
+                enqueue(&q, current->adjacent[i]);
+            }
+        }
+    }
+    return 0;
+}

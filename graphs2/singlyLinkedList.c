@@ -38,6 +38,16 @@ int addTail(_LINKED_LIST_* list, void* data){
     return 1;
 }
 
+int searchList(const _LINKED_LIST_ *list, void *data){
+    _NODE_ * node = list->head ;
+    while(node != NULL) {
+        if(node->data == data){
+            return 1;
+        }
+        node = node->next;
+    }
+    return 0;
+}
 
 _NODE_ *getNode(const _LINKED_LIST_ *list, COMPARE compare, void *data){
     _NODE_ *node = list->head;
@@ -89,11 +99,15 @@ void freeList(_LINKED_LIST_ *list) {
     }
 }
 
+
 /* Declaring  structure for the employee data */
+/*
+
 typedef struct _employee {
     char name[32];
     unsigned char age;
 }   Employee;
+
 
 int compareEmployee(Employee *e1, Employee *e2) {
     if(strcmp(e1->name, e2->name)==0) { return SUCCESS; }
@@ -117,7 +131,7 @@ int main(){
     Employee *susan = (Employee*) malloc(sizeof(Employee));
     strcpy(susan->name, "Susan");
     susan->age = 45;
-    
+
     addHead(&list , samuel);
     displayLinkedList(&list , (DISPLAY)displayEmployee);
     printf("\n");
@@ -131,3 +145,4 @@ int main(){
     displayLinkedList(&list , (DISPLAY)displayEmployee);
     return 0;
 }
+*/

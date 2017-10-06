@@ -4,7 +4,13 @@
 # main.o: main.c dataStructures.h graph.h graph.c  stack.c queue.c utility.o utility.c
 # 	gcc -Wall -O2 -c main.c
 
-graph.o: dataStructures.h graph.c stack.c queue.c utility.o utility.c
+task2.out:task2.o graph.o queue.o singlyLinkedList.o utility.o 
+	gcc -Wall -O2 task2.o graph.o queue.o singlyLinkedList.o utility.o -o task2.out
+
+task2.o: task2.c graph.c queue.c singlyLinkedList.c utility.c graph.h dataStructures.h
+	gcc -Wall -O2 -c task2.c
+
+graph.o: dataStructures.h queue.c singlyLinkedList.c graph.h graph.c utility.c
 	gcc -Wall -O2 -c graph.c
 
 stack.o: dataStructures.h stack.c

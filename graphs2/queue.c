@@ -67,7 +67,7 @@ void destroyQueue(_QUEUE_ *queue) {
 int queueEmpty(const _QUEUE_ * queue ){
     return (queue->head == NULL);
 }
-
+/*
 typedef struct _employee {
     char name[32];
     unsigned char age;
@@ -124,3 +124,4 @@ int main(){
 
     return 0;
 }
+*/

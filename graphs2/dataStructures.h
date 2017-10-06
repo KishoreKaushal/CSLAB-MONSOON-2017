@@ -38,7 +38,7 @@ _NODE_ *getNode(const _LINKED_LIST_*, COMPARE , void*);   /* Returns a pointer t
 void displayLinkedList(const _LINKED_LIST_*, DISPLAY);    /* Displays the linked list */
 int listEmpty(const _LINKED_LIST_*); /*Returns 1 if list is empty */
 void freeList(_LINKED_LIST_*); /* Free the allocated linked list from the memory.*/
-
+int searchList(const _LINKED_LIST_ *list, void *data);
 
 /* --------------------- STACK --------------------- */
 

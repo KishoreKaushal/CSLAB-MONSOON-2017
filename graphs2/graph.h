@@ -23,11 +23,12 @@ typedef struct _GRAPH_ {
 } _GRAPH_ ;
 
 // deallocating memory allocated for the graph
-void deleteGraph(_GRAPH_ *graph);
+void freeGraph(_GRAPH_ *graph);
 
 void initializeGraph(_GRAPH_ *graph);
 void createGraphFromAM(_GRAPH_ *graph);
 int readGraphFromTxt(char *filename , _GRAPH_ *graph);
 
+int hasGnode(_GNODE_ *current , _GNODE_ *goal);
 
 #endif // GRAPH_H
