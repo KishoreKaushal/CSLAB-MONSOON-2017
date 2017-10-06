@@ -2,6 +2,10 @@
 #include<stdlib.h>
 #include<string.h>
 
+
+#define NAME_LENGTH (2)
+#define INITIAL_LINE_LENGTH (2)
+
 char *getLine(void){
     char *line;
     int size;   /* how much space do I have in the line? */
@@ -11,7 +15,7 @@ char *getLine(void){
     line = malloc(size);
     if(line == 0) {
         /* malloc failed */
-        error("getLine() : failed to allocate memory for the input.");
+        printf("getLine() : failed to allocate memory for the input.");
         return 0;
     }
     length = 0;
@@ -54,7 +58,7 @@ void **malloc2d(size_t numRows , size_t rowSize){
     a = malloc(sizeof(void *) * (numRows+1));   /* one extra for sentinel */
     if (a==0){
         /* malloc failed */
-        error("malloc2d(size_t numRows , size_t rowSize) : failed to allocate memory for the input.");
+        printf("malloc2d(size_t numRows , size_t rowSize) : failed to allocate memory for the input.");
         return 0;
     }
 
@@ -75,7 +79,7 @@ void print2Dint(long long int **arr, size_t rows , size_t cols){
     printf("\n");
     for (size_t i=0; i<rows; i++){
         for (size_t j =0; j<cols ; j++){
-            printf("%d\t" , arr[i][j]);
+            printf("%lld\t" , arr[i][j]);
         }
         printf("\n");
     }
