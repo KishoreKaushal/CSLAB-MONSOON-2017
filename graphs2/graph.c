@@ -132,16 +132,6 @@ int BreadthFirstSearch(_GRAPH_ * graph , _GNODE_ **root , _GNODE_ **goal){
             flag =1;
             break;
         }
-        // if any adjacent neighbour is same as goal
-        // for(int i=0; i<(*current)->adjNum; i++){
-        //     if( ((*current)->adjacent[i]) == goal){
-        //         displayLinkedList(&visited, (DISPLAY)displayNodeNumber);
-        //         freeList(&visited);
-        //         freeQueue(&q);
-        //         return 1;
-        //     }
-        // }
-
         for (int i=0; i<(*current)->adjNum; i++){
             if(!searchList(&visited, (*current)->adjacent[i])){
                 prev[ (*(*current)->adjacent[i])->nodeNumber ] = (*current)->nodeNumber;
