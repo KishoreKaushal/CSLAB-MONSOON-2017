@@ -21,6 +21,15 @@ typedef struct _GRAPH_ {
     _GNODE_ **node; // array of pointer to each vertices
 } _GRAPH_ ;
 
+#define NAME_LENGTH (2)
+#define INITIAL_LINE_LENGTH (2)
+
+char *getLine(void);
+
+typedef struct String {
+    char *str;
+} String;
+
 // deallocating memory allocated for the graph
 void freeGraph(_GRAPH_ *graph);
 
@@ -30,5 +39,5 @@ int readGraphFromTxt(char *filename , _GRAPH_ *graph);
 void printGraph(_GRAPH_ *graph);
 int hasGnode(_GNODE_ *current , _GNODE_ *goal);
 int BreadthFirstSearch(_GRAPH_ * graph , _GNODE_ **root , _GNODE_ **goal);
-
+static void displayNodeNumber(_GNODE_ **node);
 #endif // GRAPH_H

@@ -114,8 +114,8 @@ int enqueue(_QUEUE_ *queue, void *data ) {
     if(queue->head == NULL) {
         queue->head = queue->tail = newNode;
     } else {
-        newNode->next = queue->head;
-        queue->head = newNode;
+        queue->tail->next = newNode;
+        queue->tail = newNode;
     }
     return SUCCESS;
 }

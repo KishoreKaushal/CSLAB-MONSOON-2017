@@ -4,6 +4,7 @@
 #include "dataStructures.h"
 #include "graph.h"
 
+
 int main(){
     _GRAPH_ graph;
     char fileName[30];
@@ -27,6 +28,7 @@ int main(){
         puts("Invalid End Node Number. ");
     else if(BreadthFirstSearch(&graph , &graph.node[nodeNum1], &graph.node[nodeNum2])){
         puts("Nodes are connected.");
+        //String *shortestPath = printShortestPathUsingBFS(&graph , &graph.node[nodeNum1], &graph.node[nodeNum2]));
     } else puts("Not Connected.");
 
     freeGraph(&graph);

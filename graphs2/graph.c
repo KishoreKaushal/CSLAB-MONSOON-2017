@@ -101,37 +101,143 @@ void printAllGraphNodeNumber(const _GRAPH_ *graph) {
     }
 }
 
+static void displayNodeNumber(_GNODE_ **node){
+    printf("%d ", (*node)->nodeNumber);
+}
+
 int BreadthFirstSearch(_GRAPH_ * graph , _GNODE_ **root , _GNODE_ **goal){
-    _LINKED_LIST_ checked;
-    initializeList(&checked);
+    _LINKED_LIST_ visited;
+    initializeList(&visited);
     _QUEUE_ q;
     initializeQueue(&q);
-    addHead(&checked , root);
+    int flag=0;
+    int *prev = (int *)malloc(sizeof(int) * graph->vc);
+    for (int i=0; i<graph->vc ; i++){
+        prev[i] = -1;
+    }
+    addHead(&visited , root);
     enqueue(&q, root);
     printf("Start Node: %d , Addr: %d\n", (*root)->nodeNumber , root );
     printf("End Node: %d , Addr: %d\n", (*goal)->nodeNumber , goal );
-
     while (!queueEmpty(&q)){
+        // print queue in each step
+        printf("queue : ");
+        displayQueue(&q, (DISPLAY)displayNodeNumber);
         _GNODE_ **current = (_GNODE_ *) dequeue(&q);
         printf("Current Node: %d , Addr: %d AdjNum: %d\n", (*current)->nodeNumber , current, (*current)->adjNum );
-/*        for(int i=0; i<(*current)->adjNum; i++){
-            if(current==goal)
-        }*/
         if(current==goal){
-            freeList(&checked);
+            displayLinkedList(&visited, (DISPLAY)displayNodeNumber);
+            freeList(&visited);
             freeQueue(&q);
-            return 1;
+            flag =1;
+            break;
         }
+        // if any adjacent neighbour is same as goal
+        // for(int i=0; i<(*current)->adjNum; i++){
+        //     if( ((*current)->adjacent[i]) == goal){
+        //         displayLinkedList(&visited, (DISPLAY)displayNodeNumber);
+        //         freeList(&visited);
+        //         freeQueue(&q);
+        //         return 1;
+        //     }
+        // }
+
         for (int i=0; i<(*current)->adjNum; i++){
-            if(!searchList(&checked, (*current)->adjacent[i])){
-                addHead(&checked , (*current)->adjacent[i]);
+            if(!searchList(&visited, (*current)->adjacent[i])){
+                prev[ (*(*current)->adjacent[i])->nodeNumber ] = (*current)->nodeNumber;
+                addHead(&visited , (*current)->adjacent[i]);
                 enqueue(&q, (*current)->adjacent[i]);
             }
         }
     }
 
-    freeList(&checked);
+    displayLinkedList(&visited, (DISPLAY)displayNodeNumber);
+    freeList(&visited);
     freeQueue(&q);
-    printf("Returning 0\n");
-    return 0;
+
+    // print path
+    if(flag){
+        int bktrace = (*goal)->nodeNumber;
+        printf("\n%d ", bktrace);
+        while (bktrace != (*root)->nodeNumber) {
+            if(bktrace==-1) break;
+            bktrace = prev[bktrace];
+            printf(" <-%d ", bktrace);
+        }
+    }
+    return flag;
 }
+
+
+// int BreadthFirstSearch(_GRAPH_ * graph , _GNODE_ **root , _GNODE_ **goal){
+//     _LINKED_LIST_ visited;
+//     initializeList(&visited);
+//     _QUEUE_ q;
+//     initializeQueue(&q);
+//     addHead(&visited , root);
+//     enqueue(&q, root);
+//     printf("Start Node: %d , Addr: %d\n", (*root)->nodeNumber , root );
+//     printf("End Node: %d , Addr: %d\n", (*goal)->nodeNumber , goal );
+//
+//     while (!queueEmpty(&q)){
+//         _GNODE_ **current = (_GNODE_ *) dequeue(&q);
+//         printf("Current Node: %d , Addr: %d AdjNum: %d\n", (*current)->nodeNumber , current, (*current)->adjNum );
+//
+//         if(current==goal){
+//             freeList(&visited);
+//             freeQueue(&q);
+//             return 1;
+//         }
+//
+//         // if any adjacent neighbour is same as goal
+//         for(int i=0; i<(*current)->adjNum; i++){
+//             if( ((*current)->adjacent[i]) == goal){
+//             freeList(&visited);
+//             freeQueue(&q);
+//             return 1;
+//         }
+//         }
+//
+//
+//         for (int i=0; i<(*current)->adjNum; i++){
+//             if(!searchList(&visited, (*current)->adjacent[i])){
+//                 addHead(&visited , (*current)->adjacent[i]);
+//                 enqueue(&q, (*current)->adjacent[i]);
+//             }
+//         }
+//     }
+//
+//     freeList(&visited);
+//     freeQueue(&q);
+//     printf("Returning 0\n");
+//     return 0;
+// }
+
+//
+// char *getLine(void){
+//     char *line;
+//     int size;   /* how much space do I have in the line? */
+//     int length; /* how many characters have i used ?*/
+//     int c;
+//     size = INITIAL_LINE_LENGTH;
+//     line = malloc(size);
+//     if(line == 0) {
+//         /* malloc failed */
+//         printf("getLine() : failed to allocate memory for the input.");
+//         return 0;
+//     }
+//     length = 0;
+//     while ((c = getchar()) != EOF && c != '\n') {
+//         /* code */
+//         if(length >= size-1){
+//             /* need more space */
+//             size*=2;
+//             /* make length equal to new size*/
+//             /* copy contents if necessary */
+//             line = realloc(line , size);
+//         }
+//         line[length++] = c;
+//     }
+//     line[length] = '\0';
+//     return line;
+// }

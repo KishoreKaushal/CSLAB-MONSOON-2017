@@ -19,7 +19,7 @@ stack.o: dataStructures.h stack.c
 dataStructures.o: dataStructures.h dataStructures.c
 	gcc -Wall -O2 -c dataStructures.c -g
 
-utility.o: utility.c
+utility.o: utility.c utility.h
 	gcc -Wall -O2 -c utility.c -g
 clean:
 	rm *.o *.out

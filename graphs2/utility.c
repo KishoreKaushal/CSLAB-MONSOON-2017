@@ -1,10 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
-
-
-#define NAME_LENGTH (2)
-#define INITIAL_LINE_LENGTH (2)
+# include "utility.h"
 
 char *getLine(void){
     char *line;
