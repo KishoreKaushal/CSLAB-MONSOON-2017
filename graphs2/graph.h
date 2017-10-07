@@ -40,4 +40,8 @@ void printGraph(_GRAPH_ *graph);
 int hasGnode(_GNODE_ *current , _GNODE_ *goal);
 int * BreadthFirstSearch(_GRAPH_ * graph , _GNODE_ **root , _GNODE_ **goal);
 static void displayNodeNumber(_GNODE_ **node);
+void makeDotFile(_GRAPH_ *graph);
+void publishShortestPathGraph( _GRAPH_ * graph ,int *shortestPath, int pathLength);
+int checkEdgeInPath(int *shortestPath , int pathLength , int vertex1 , int vertex2);
+
 #endif // GRAPH_H
