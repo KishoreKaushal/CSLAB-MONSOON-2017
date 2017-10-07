@@ -1,7 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
-#include "dataStructures.h"
 #include "graph.h"
 
 
@@ -38,7 +37,7 @@ int main(){
         printf("Length of shortest Path: %d\n", lengthOfShortestPath);
         publishShortestPathGraph(&graph, Path, lengthOfShortestPath);
     } else puts("Not Connected.");
-    puts("\n");
+    puts("Deallocating all reserved memory..\n");
     free(Path);
     freeGraph(&graph);
     return 0;
