@@ -59,7 +59,7 @@ void initializeQueue(_QUEUE_ *);                /* Initializes Queue*/
 int enqueue(_QUEUE_ *, void *);                 /* Adds an element in the queue(FIFO) */
 void *dequeue(_QUEUE_ *);                       /* Removes an element from the queue at tail position*/
 void displayQueue(_QUEUE_ *, DISPLAY  );        /* Displays the whole queue */
-void destroyQueue(_QUEUE_ *);                   /* Destroy the whole queue */
+void freeQueue(_QUEUE_ *);                   /* Destroy the whole queue */
 int queueEmpty(const _QUEUE_ *);                /* returns 1 if the queue is empty. */
 
 /* ---------------- DOUBLY LINKED LIST ------------------ */

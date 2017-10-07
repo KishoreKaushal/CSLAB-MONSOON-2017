@@ -3,7 +3,6 @@
 #include<string.h>
 #include "dataStructures.h"
 
-
 void initializeList(_LINKED_LIST_ *list){
     list->head = NULL;
     list->current = NULL;
@@ -99,50 +98,67 @@ void freeList(_LINKED_LIST_ *list) {
     }
 }
 
-
-/* Declaring  structure for the employee data */
-/*
-
-typedef struct _employee {
-    char name[32];
-    unsigned char age;
-}   Employee;
-
-
-int compareEmployee(Employee *e1, Employee *e2) {
-    if(strcmp(e1->name, e2->name)==0) { return SUCCESS; }
-        else return FAILED;
+/* Initializes Queue */
+void initializeQueue(_QUEUE_ * queue) {
+    queue->head = NULL ;
+    queue->current = NULL ;
+    queue->tail = NULL ;
 }
 
-void displayEmployee(Employee *e) {
-    printf("Name: %s\tAge: %d\n", e->name, e->age);
+/* Adds an element to the Queue(FIFO)  */
+int enqueue(_QUEUE_ *queue, void *data ) {
+    _NODE_ *newNode = (_NODE_*) malloc(sizeof(_NODE_));
+    if (newNode == NULL ) return FAILED;
+    newNode->data = data ;
+    newNode->next = NULL;
+    if(queue->head == NULL) {
+        queue->head = queue->tail = newNode;
+    } else {
+        newNode->next = queue->head;
+        queue->head = newNode;
+    }
+    return SUCCESS;
 }
 
-
-int main(){
-    _LINKED_LIST_ list;
-    initializeList(&list);
-    Employee *samuel = (Employee*) malloc(sizeof(Employee));
-    strcpy(samuel->name, "Samuel");
-    samuel->age = 32;
-    Employee *sally = (Employee*) malloc(sizeof(Employee));
-    strcpy(sally->name, "Sally");
-    sally->age = 28;
-    Employee *susan = (Employee*) malloc(sizeof(Employee));
-    strcpy(susan->name, "Susan");
-    susan->age = 45;
-
-    addHead(&list , samuel);
-    displayLinkedList(&list , (DISPLAY)displayEmployee);
-    printf("\n");
-    addHead(&list , sally);
-    displayLinkedList(&list , (DISPLAY)displayEmployee);
-    printf("\n");
-    addTail(&list , susan);
-    displayLinkedList(&list , (DISPLAY)displayEmployee);
-    printf("\n");
-    freeList(&list);
-    displayLinkedList(&list , (DISPLAY)displayEmployee);
-    return 0;
+/* Removes an element from the queue at head position*/
+void *dequeue(_QUEUE_ * queue){
+    if( queueEmpty(queue) ) {
+        return NULL;
+    }
+    _NODE_ *tmp = queue->head;
+    void *data = queue->head->data;
+    if(queue->head == queue->tail ){
+        queue->head = queue->tail = NULL;
+    } else {
+        queue->head = queue->head->next;
+    }
+    free(tmp);
+    return data;
 }
-*/
+
+/* Displays the whole queue */
+void displayQueue(_QUEUE_ * queue, DISPLAY display){
+    _NODE_ *node = queue->head;
+    printf("%s\n", "Queue: -head-TO-tail-" );
+    while(node != NULL) {
+        display(node->data);
+        node = node->next;
+    }
+    printf("\n");
+}
+
+/* Destroy the whole Queue */
+void freeQueue(_QUEUE_ *queue) {
+    _NODE_ *tmp = queue->head;
+    while (queue->head != NULL ){
+        queue->head = queue->head->next;
+        free(tmp);
+        tmp = queue->head;
+    }
+    queue->head = queue->tail = NULL;
+}
+
+/* returns 1 if the queue is empty */
+int queueEmpty(const _QUEUE_ * queue ){
+    return (queue->head == NULL);
+}

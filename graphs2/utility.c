@@ -75,11 +75,11 @@ void **malloc2d(size_t numRows , size_t rowSize){
     return a;
 }
 
-void print2Dint(long long int **arr, size_t rows , size_t cols){
+void print2Dint( int **arr, size_t rows , size_t cols){
     printf("\n");
     for (size_t i=0; i<rows; i++){
         for (size_t j =0; j<cols ; j++){
-            printf("%lld\t" , arr[i][j]);
+            printf("%d\t" , arr[i][j]);
         }
         printf("\n");
     }

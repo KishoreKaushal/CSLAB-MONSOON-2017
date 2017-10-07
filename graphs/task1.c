@@ -81,7 +81,6 @@ void makeDotFile(_GRAPH_ *graph) {
 // to print adjacency matrix
 void print2D(int **arr , int r, int c){
     for (int i =0 ; i < r; i++){
-
         for (int j=0; j<c;  j++)
             printf("%d\t" , arr[i][j]);
         printf("\n");
