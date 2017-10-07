@@ -38,6 +38,6 @@ void createGraphFromAM(_GRAPH_ *graph);
 int readGraphFromTxt(char *filename , _GRAPH_ *graph);
 void printGraph(_GRAPH_ *graph);
 int hasGnode(_GNODE_ *current , _GNODE_ *goal);
-int BreadthFirstSearch(_GRAPH_ * graph , _GNODE_ **root , _GNODE_ **goal);
+int * BreadthFirstSearch(_GRAPH_ * graph , _GNODE_ **root , _GNODE_ **goal);
 static void displayNodeNumber(_GNODE_ **node);
 #endif // GRAPH_H

@@ -105,7 +105,7 @@ static void displayNodeNumber(_GNODE_ **node){
     printf("%d ", (*node)->nodeNumber);
 }
 
-int BreadthFirstSearch(_GRAPH_ * graph , _GNODE_ **root , _GNODE_ **goal){
+int * BreadthFirstSearch(_GRAPH_ * graph , _GNODE_ **root , _GNODE_ **goal){
     _LINKED_LIST_ visited;
     initializeList(&visited);
     _QUEUE_ q;
@@ -145,17 +145,24 @@ int BreadthFirstSearch(_GRAPH_ * graph , _GNODE_ **root , _GNODE_ **goal){
     freeList(&visited);
     freeQueue(&q);
 
+    int *shortestPath = NULL;
+    int cnt=0;
     // print path
     if(flag){
+        shortestPath = (int *)malloc(sizeof(int));
         int bktrace = (*goal)->nodeNumber;
         printf("\n%d ", bktrace);
+        shortestPath[cnt++] = bktrace;
         while (bktrace != (*root)->nodeNumber) {
-            if(bktrace==-1) break;
             bktrace = prev[bktrace];
+            shortestPath = (int*)realloc(shortestPath , sizeof(int) * (cnt+1) );
+            shortestPath[cnt++] = bktrace;
+            if(bktrace==-1) break;
             printf(" <-%d ", bktrace);
         }
     }
-    return flag;
+    free(prev);
+    return shortestPath;
 }
 
 
