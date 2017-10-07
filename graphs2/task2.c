@@ -26,16 +26,16 @@ int main(){
         puts("Invalid Start Node Number. ");
     else if(nodeNum2<0 || graph.vc<=nodeNum2)
         puts("Invalid End Node Number. ");
-    else if((Path=BreadthFirstSearch(&graph , &graph.node[nodeNum1], &graph.node[nodeNum2])) !=NULL){
+    else if((Path=BreadthFirstSearch(&graph , &graph.node[nodeNum2], &graph.node[nodeNum1])) !=NULL){
         puts("Nodes are connected.");
         size_t i=0;
         while(1){
             printf("\n%d ", Path[i]);
-            if(Path[i]==nodeNum1)   break;
+            if(Path[i]==nodeNum2)   break;
             i++;
         }
-        printf("Sizes: %ld %ld\n", sizeof(Path), sizeof(int));
     } else puts("Not Connected.");
+    puts("\n");
     free(Path);
     freeGraph(&graph);
     return 0;

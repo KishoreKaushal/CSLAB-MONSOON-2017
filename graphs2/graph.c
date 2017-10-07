@@ -158,7 +158,7 @@ int * BreadthFirstSearch(_GRAPH_ * graph , _GNODE_ **root , _GNODE_ **goal){
             shortestPath = (int*)realloc(shortestPath , sizeof(int) * (cnt+1) );
             shortestPath[cnt++] = bktrace;
             if(bktrace==-1) break;
-            printf(" <-%d ", bktrace);
+            printf("-->%d ", bktrace);
         }
     }
     free(prev);
