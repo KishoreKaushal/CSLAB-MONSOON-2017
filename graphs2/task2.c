@@ -13,7 +13,7 @@ int main(){
     printAllGraphNodeNumber(&graph);
 
     for (int i=0; i<graph.vc; i++)
-        printf("\nAddr of Node %d : %d", &graph.node[i]->nodeNumber ,  &graph.node[i] );
+        printf("\nAddr of Node %d : %d", graph.node[i]->nodeNumber ,  &graph.node[i] );
 
     int nodeNum1, nodeNum2;
     printf("\nEnter Start node Number: ");

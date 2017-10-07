@@ -94,7 +94,7 @@ void printGraph(_GRAPH_ *graph){
 void printAllGraphNodeNumber(const _GRAPH_ *graph) {
     printf("NODES IN THE GRAPH: ");
     for (int i=0; i<graph->vc ; i++) {
-        printf("\nNode Number : %d\n|----->  Adjacent Nodes \t\tAddr",graph->node[i]->nodeNumber);
+        printf("\nNode Number : %d\n|----->  Adjacent Nodes \t\tAddr. Of Node\t\t\tAddr. Of NodeNumber",graph->node[i]->nodeNumber);
         for (int j=0; j<graph->node[i]->adjNum; j++){
             printf("\n|----->  %d \t\t\t\t%d\t\t\t%d, ", (*graph->node[i]->adjacent[j])->nodeNumber , graph->node[i]->adjacent[j] , &graph->node[i]->adjacent[j]);
         }
