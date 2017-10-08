@@ -5,4 +5,4 @@ pathfinder.o: pathfinder.c graph.c graph.h
 graph.o:  graph.h graph.c
 	gcc -Wall -O2 -c graph.c -g
 clean:
-	rm *.o *.out
+	rm *.o *.out *.dot
