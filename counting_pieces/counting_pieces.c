@@ -36,7 +36,7 @@ int main(){
             i++;
         }
         int lengthOfShortestPath = i;
-        printf("Length of shortest Path: %d\n", lengthOfShortestPath);
+        printf("\nLength of shortest Path: %d\n", lengthOfShortestPath);
         publishShortestPathGraph(&graph, Path, lengthOfShortestPath);
     } else puts("Not Connected.");
     puts("Deallocating all reserved memory..\n");
