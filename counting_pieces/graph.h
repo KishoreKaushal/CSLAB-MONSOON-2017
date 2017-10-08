@@ -12,6 +12,7 @@
 #ifndef GRAPH_H
 #define GRAPH_H
 
+// number of colors available
 #define COLOR_NUM (6)
 
 // structure of the graph using adjacency matrix
@@ -39,19 +40,31 @@ typedef struct String {
 
 // deallocating memory allocated for the graph
 void freeGraph(_GRAPH_ *graph);
-
+// initialize the Graph
 void initializeGraph(_GRAPH_ *graph);
+// create graph structure in pointer form
 void createGraphFromAM(_GRAPH_ *graph);
+// read a text file for the adjacency matrix and creates graph
 int readGraphFromTxt(char *filename , _GRAPH_ *graph);
+// displays the graph on the screen
 void printGraph(_GRAPH_ *graph);
+// if current node has adjacent node as goal
 int hasGnode(_GNODE_ *current , _GNODE_ *goal);
+// Breadth first Traversal and also find shortest path and publish it into a dot file
 int * BreadthFirstSearch(_GRAPH_ * graph , _GNODE_ **root , _GNODE_ **goal);
+// displays the node number of a given node
 static void displayNodeNumber(_GNODE_ **node);
+// publish a dot file
 void makeDotFile(_GRAPH_ *graph);
+// publish the shortest path graph : a modification of the BFS algorithm
 void publishShortestPathGraph( _GRAPH_ * graph ,int *shortestPath, int pathLength);
+// check whether vertex1 and vertex2 forms an edge in the given path
 int checkEdgeInPath(int *shortestPath , int pathLength , int vertex1 , int vertex2);
+// utility funciton : prints the 2D int array
 void print2Dint( int **arr, size_t rows , size_t cols);
+// counts the number of pieces and displays the dot file and push the dot file
 int countPiecesAndPublish(_GRAPH_ * graph);
+// check whether the node is present in a particular piece of graph
 int checkNodeInPiece(int *pieceArr , int nodeNum);
 
 #endif // GRAPH_H
