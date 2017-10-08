@@ -4,6 +4,8 @@
 #include "graph.h"
 
 
+
+
 int main(){
     _GRAPH_ graph;
     char fileName[30];
@@ -38,6 +40,10 @@ int main(){
         publishShortestPathGraph(&graph, Path, lengthOfShortestPath);
     } else puts("Not Connected.");
     puts("Deallocating all reserved memory..\n");
+
+    puts("\nCounting Pieces: ");
+    printf("Pieces: %d\n", countPiecesAndPublish(&graph));
+
     free(Path);
     freeGraph(&graph);
     return 0;

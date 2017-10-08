@@ -118,7 +118,8 @@ void printAllGraphNodeNumber(const _GRAPH_ *graph) {
 }
 
 static void displayNodeNumber(_GNODE_ **node){
-    printf("%d ", (*node)->nodeNumber);
+    //printf("%d ", (*node)->nodeNumber);
+    printf("%d ", node);
 }
 
 int * BreadthFirstSearch(_GRAPH_ * graph , _GNODE_ **root , _GNODE_ **goal){
@@ -247,6 +248,86 @@ void publishShortestPathGraph( _GRAPH_ * graph ,int *shortestPath, int pathLengt
 }
 
 
+int countPiecesAndPublish(_GRAPH_ * graph){
+    int pieces =0;
+    if(graph->vc>0) pieces++;
+    int **ptr;
+    int flag=0;
+    /*------------BFS (modified) ------------------*/
+    int iter=0;
+
+    _GNODE_ **root = &graph->node[iter];
+    _LINKED_LIST_ visited;
+    _QUEUE_ q;
+    initializeList(&visited);
+
+    while(iter<graph->vc){
+        initializeQueue(&q);
+        root = &graph->node[iter];
+        // int flag=0;
+        // int *prev = (int *)malloc(sizeof(int) * graph->vc);
+        // for (int i=0; i<graph->vc ; i++){
+        //     prev[i] = -1;
+        // }
+        addHead(&visited , root);
+        enqueue(&q, root);
+        // printf("Start Node: %d , Addr: %d\n", (*root)->nodeNumber , root );
+        // printf("End Node: %d , Addr: %d\n", (*goal)->nodeNumber , goal );
+        //printf("Line: %d\n", __LINE__);
+        while (!queueEmpty(&q)){
+            // print queue in each step
+        //    printf("queue : ");
+        //    displayQueue(&q, (DISPLAY)displayNodeNumber);
+            _GNODE_ **current = (_GNODE_ *) dequeue(&q);
+        //    printf("Current Node: %d , Addr: %d AdjNum: %d\n", (*current)->nodeNumber , current, (*current)->adjNum );
+            // if(current==goal){
+            //     displayLinkedList(&visited, (DISPLAY)displayNodeNumber);
+            //     freeList(&visited);
+            //     freeQueue(&q);
+            //     flag =1;
+            //     break;
+            // }
+        //    printf("Line: %d\n", __LINE__);
+            for (int i=0; i<(*current)->adjNum; i++){
+                if(!searchList(&visited, (*current)->adjacent[i])){
+                //    prev[ (*(*current)->adjacent[i])->nodeNumber ] = (*current)->nodeNumber;
+                    addHead(&visited , (*current)->adjacent[i]);
+                    enqueue(&q, (*current)->adjacent[i]);
+                }
+            }
+        }
+        //printf("\nVisited Nodes : \n" );
+        //displayLinkedList(&visited, (DISPLAY)displayNodeNumber);
+
+        printf("Line: %d\n", __LINE__);
+        for(int i=0; i<graph->vc; i++){
+            printf("\nNot in First Iter: ");
+            if(!searchList(&visited, &graph->node[i])){
+                printf("Not visited: %d , Therefore a New piece.\n", graph->node[i]->nodeNumber);
+                iter =  i;
+                pieces++;
+                flag=1;
+                break;
+             }
+             else {
+                printf("Visited: %d \n", graph->node[i]->nodeNumber);
+            }
+        }
+        printf("Line: %d\n", __LINE__);
+        //displayLinkedList(&visited, (DISPLAY)displayNodeNumber);
+        printf("Line: %d\n", __LINE__);
+        freeQueue(&q);
+        if(flag==0){
+            break;
+        } else flag=0;
+        printf("FLAG: %d \n", flag);
+    }
+    // printf("Line: %d\n", __LINE__);
+    /*---------------------------------------------*/
+    freeList(&visited);
+    return pieces;
+}
+
 
 /*-----------------DATA STRUCTURES-------------------*/
 void initializeList(_LINKED_LIST_ *list){
@@ -286,6 +367,7 @@ int addTail(_LINKED_LIST_* list, void* data){
 int searchList(const _LINKED_LIST_ *list, void *data){
     _NODE_ * node = list->head ;
     while(node != NULL) {
+        printf("\nNode->data: %d  Data: %d\n", node->data , data);
         if(node->data == data){
             return 1;
         }
