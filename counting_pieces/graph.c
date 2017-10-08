@@ -9,6 +9,16 @@
 #include"graph.h"
 
 
+char *colour[] = {
+    "[color=red]",
+    "[color=blue]",
+    "[color=green]",
+    "[color=cyan]",
+    "[color=yellow]",
+    "[color=black]",
+};
+
+
 // initializeGraph
 void initializeGraph(_GRAPH_ *graph) {
     graph->vc = 0;
@@ -196,11 +206,11 @@ void makeDotFile(_GRAPH_ *graph) {
 }
 
 int checkEdgeInPath(int *shortestPath , int pathLength , int vertex1 , int vertex2 ){
-    for (size_t i=1; i<pathLength+1; i++ ){
+    for (size_t i=1; shortestPath[i]!=-1 && i<pathLength+1; i++ ){
         if(shortestPath[i-1]==vertex1 && shortestPath[i]==vertex2)
             return 1;
     }
-    for (size_t i=1; i<pathLength+1; i++){
+    for (size_t i=1; shortestPath[i]!=-1 && i<pathLength+1; i++){
         if(shortestPath[i-1]==vertex2 && shortestPath[i]==vertex1)
             return 1;
     }
@@ -236,37 +246,56 @@ void publishShortestPathGraph( _GRAPH_ * graph ,int *shortestPath, int pathLengt
 }
 
 
-int countPiecesAndPublish(_GRAPH_ * graph){
-    int pieces =0;
-    if(graph->vc>0) pieces++;
-    int **ptr;
-    int flag=0;
-    /*------------BFS (modified) ------------------*/
-    int iter=0;
+int checkNodeInPiece(int *pieceArr , int nodeNum){
+    int *ptr = &pieceArr[0];
+    while (ptr && (*ptr)!=-1){
+        if((*ptr)==nodeNum)
+            return 1;
+        ptr++;
+    }
+    return 0;
+}
 
+int countPiecesAndPublish(_GRAPH_ * graph){
+    int pieces = 0, ptrIdx;
+    if(graph->vc>0) pieces++;
+    int **ptr = (int **)malloc(sizeof(int ) * pieces);
+    int flag=0;
+    /*------BFS (modified) --- COUNTING PIECES------*/
+    int iter=0;
     _GNODE_ **root = &graph->node[iter];
     _LINKED_LIST_ visited;
     _QUEUE_ q;
     initializeList(&visited);
 
-    while(iter<graph->vc){
+    while(pieces&&iter<graph->vc){
+        ptrIdx =0;
         initializeQueue(&q);
         root = &graph->node[iter];
         addHead(&visited , root);
+        ptr[pieces-1] = (int *)malloc(sizeof(int)*(ptrIdx+2));  
+        ptr[pieces-1][ptrIdx++] = (*root)->nodeNumber;
         enqueue(&q, root);
         while (!queueEmpty(&q)){
             _GNODE_ **current = (_GNODE_ *) dequeue(&q);
             for (int i=0; i<(*current)->adjNum; i++){
                 if(!searchList(&visited, (*current)->adjacent[i])){
+
+                    ptr[pieces-1] = (int *)realloc( ptr[pieces-1] , sizeof(int)*(ptrIdx+2));
+                    ptr[pieces-1][ptrIdx++] =  (*(*current)->adjacent[i])->nodeNumber;
+
                     addHead(&visited , (*current)->adjacent[i]);
                     enqueue(&q, (*current)->adjacent[i]);
                 }
             }
         }
+        ptr[pieces-1][ptrIdx] = -1;
+        // check for unvisited nodes
         for(int i=0; i<graph->vc; i++){
             if(!searchList(&visited, &graph->node[i])){
                 iter =  i;
                 pieces++;
+                ptr = (int **)realloc( ptr , sizeof(int ) * pieces);
                 flag=1;
                 break;
              }
@@ -276,8 +305,54 @@ int countPiecesAndPublish(_GRAPH_ * graph){
             break;
         } else flag=0;
     }
-    /*---------------------------------------------*/
+    /*---------------COUNTING FINISHED------------------*/
+
+    /*-------------PUBLISHING DOT FILE -----------------*/
+
+    char outFileName[30];
+    printf("\nEnter the output \".dot\" file name (without any spaces) : ");
+    scanf(" %s" , outFileName);
+    FILE *fout = fopen(outFileName, "w+");
+    int isolation=0;
+    int pieceNum = 0;
+    fprintf(fout, "graph %s { \n", graph->name);
+
+    while(pieceNum<pieces){
+        for (int i=0; i<graph->vc ; i++){
+            isolation = 1;
+            if(checkNodeInPiece(ptr[pieceNum], i)){
+                for (int j=i; j<graph->vc ; j++){
+                    if(graph->AM[i][j]==1){ // if j is connected to i : means j is also in that piece
+                        fprintf(fout, "%d -- %d  %s;\n", i , j, colour[pieceNum%COLOR_NUM] );
+                        isolation = 0;
+                    }
+                }
+            }
+            // IF A POINT IS ISOLATED
+            if(isolation) { fprintf( fout , "%d\n", i); }
+        }
+        pieceNum++;
+    }
+
+    fprintf(fout , "\n}" );
+    fclose(fout);
+    char command[40] = "xdot ";
+    strcat(command, outFileName);
+    system(command);
+
+    /*---------------PUBLISHED DOT FILE ----------------*/
+    // print ptr
+    for (int i=0; i<pieces; i++){
+        printf("\nPiece: %d --> ", i+1);
+        for (int j=0; ptr[i][j]!=-1; j++)
+            printf("%d , ", ptr[i][j]);
+        printf("\n");
+    }
+
+    for (int i=0; i<pieces; i++)
+        free(ptr[i]);
     freeList(&visited);
+    free(ptr);
     return pieces;
 }
 

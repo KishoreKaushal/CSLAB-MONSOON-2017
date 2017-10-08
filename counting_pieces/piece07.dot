@@ -1,0 +1,37 @@
+graph test3
+ { 
+0 -- 9  [color=red];
+1
+2
+3
+4
+5
+6 -- 9  [color=red];
+7
+8
+9
+0
+1 -- 7  [color=blue];
+1 -- 8  [color=blue];
+2
+3
+4 -- 5  [color=blue];
+4 -- 7  [color=blue];
+4 -- 8  [color=blue];
+5 -- 7  [color=blue];
+6
+7 -- 8  [color=blue];
+8
+9
+0
+1
+2 -- 3  [color=green];
+3
+4
+5
+6
+7
+8
+9
+
+}

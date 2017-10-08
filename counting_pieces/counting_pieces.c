@@ -39,11 +39,11 @@ int main(){
         printf("\nLength of shortest Path: %d\n", lengthOfShortestPath);
         publishShortestPathGraph(&graph, Path, lengthOfShortestPath);
     } else puts("Not Connected.");
-    puts("Deallocating all reserved memory..\n");
 
-    puts("\nCounting Pieces: ");
+    puts("\nCounting Pieces...");
     printf("Pieces: %d\n", countPiecesAndPublish(&graph));
 
+    puts("\n....Deallocating all reserved memory....\n");
     free(Path);
     freeGraph(&graph);
     return 0;

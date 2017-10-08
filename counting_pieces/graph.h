@@ -12,6 +12,7 @@
 #ifndef GRAPH_H
 #define GRAPH_H
 
+#define COLOR_NUM (6)
 
 // structure of the graph using adjacency matrix
 typedef struct _GNODE_ {
@@ -51,6 +52,8 @@ void publishShortestPathGraph( _GRAPH_ * graph ,int *shortestPath, int pathLengt
 int checkEdgeInPath(int *shortestPath , int pathLength , int vertex1 , int vertex2);
 void print2Dint( int **arr, size_t rows , size_t cols);
 int countPiecesAndPublish(_GRAPH_ * graph);
+int checkNodeInPiece(int *pieceArr , int nodeNum);
+
 #endif // GRAPH_H
 
 
