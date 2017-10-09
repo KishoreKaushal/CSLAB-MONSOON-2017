@@ -3,6 +3,10 @@
 /* mailTo: kshr4kshl@gmail.com  */
 /*         111601008            */
 
+// Note: Variable and function names are self-explanatory
+// hence I have reduced amount of comments to save my time for the quiz
+
+// Please type the Input file name correctly or else There will a segmentation fault
 
 #include<stdio.h>
 #include<stdlib.h>
@@ -13,6 +17,8 @@
 int main(){
     _GRAPH_ graph;  // declaring graph data structure
     char fileName[30];  // file name
+    printf(" Please type the Input file name correctly or else There will a segmentation fault : ");
+    
     scanf("%s", fileName);  // input the filename
     readGraphFromTxt(fileName, &graph);
     // read the text file and create the graph data structure in the backend

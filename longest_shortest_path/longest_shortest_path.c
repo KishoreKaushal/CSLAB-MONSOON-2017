@@ -6,6 +6,7 @@
 // Note: Variable and function names are self-explanatory
 // hence I have reduced amount of comments to save my time for the quiz
 
+// Please type the Input file name correctly or else There will a segmentation fault
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
@@ -15,8 +16,12 @@
 int main(){
     _GRAPH_ graph;  // declaring graph data structure
     char fileName[30];  // file name
+    printf(" Please type the Input file name correctly or else There will a segmentation fault : ");
     scanf("%s", fileName);  // input the filename
-    readGraphFromTxt(fileName, &graph);
+    if(!readGraphFromTxt(fileName, &graph)){
+        freeGraph(&graph);
+        exit(0);
+    }
     // read the text file and create the graph data structure in the backend
     // for more detail on this function please check in graph.c
     printGraph(&graph); // print the graph

@@ -91,13 +91,15 @@ int readGraphFromTxt(char *filename , _GRAPH_ *graph){
                 AM[i][j] = graphName[j] - '0';
             }
         }
+
+        if(AM != NULL) graph->AM = AM;
+        if(gname != NULL )  graph->name = gname;
+        graph->vc = vc;
+        createGraphFromAM(graph);
+        fclose(fp);
+        return vc;
     }
-    if(AM != NULL) graph->AM = AM;
-    if(gname != NULL )  graph->name = gname;
-    graph->vc = vc;
-    createGraphFromAM(graph);
-    fclose(fp);
-    return vc;
+    return 0;
 }
 
 
