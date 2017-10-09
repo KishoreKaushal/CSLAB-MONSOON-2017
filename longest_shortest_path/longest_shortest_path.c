@@ -3,6 +3,9 @@
 /* mailTo: kshr4kshl@gmail.com  */
 /*         111601008            */
 
+// Note: Variable and function names are self-explanatory
+// hence I have reduced amount of comments to save my time for the quiz
+
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
@@ -22,32 +25,7 @@ int main(){
     for (int i=0; i<graph.vc; i++)
         printf("\nAddr of Node %d : %d", graph.node[i]->nodeNumber ,  &graph.node[i] );
 
-    // Traversal : just for cheking the BreadthFirstSearch
-    // task 2 : this is task 2 : path finder
-    int nodeNum1, nodeNum2, *Path;
-    printf("\nEnter Start node Number: ");
-    scanf(" %d" , &nodeNum1);
-    printf("Enter the ending node Number: ");
-    scanf(" %d" , &nodeNum2);
-
-    if(nodeNum1<0 || graph.vc<=nodeNum1)
-        puts("Invalid Start Node Number. ");
-    else if(nodeNum2<0 || graph.vc<=nodeNum2)
-        puts("Invalid End Node Number. ");
-    else if((Path=BreadthFirstSearch(&graph , &graph.node[nodeNum2], &graph.node[nodeNum1])) !=NULL){
-        puts("Nodes are connected.");
-        int lengthOfShortestPath = shortestPathLength(Path, nodeNum2);
-        printf("\nLength of shortest Path: %d\n", lengthOfShortestPath);
-        // this function publish a file with desired path trace
-        publishShortestPathGraph(&graph, Path, lengthOfShortestPath);
-    } else puts("Not Connected.");
-
-    // task 3 starts from here
-    // counting the pieces of the graph
-    puts("\nCounting Pieces...");
-
-    // countPiecesAndPublish : returns the number of pieces in the graph and publishes the dot file with edges of different pieces with different color
-    printf("Pieces: %d\n", countPiecesAndPublish(&graph));
+    int  *Path;
 
     // task 4 starts here
     int *nodeLongestShortestPath = findLongestShortestPath(&graph);
@@ -57,7 +35,7 @@ int main(){
 
     if((Path=BreadthFirstSearch(&graph , &graph.node[nodeLongestShortestPath[0]], &graph.node[nodeLongestShortestPath[1]])) !=NULL){
         puts("Nodes are connected.");
-        int lengthOfShortestPath = shortestPathLength(Path, nodeNum2);
+        int lengthOfShortestPath = shortestPathLength(Path, nodeLongestShortestPath[0]);
         printf("\nLength of Longest Shortest Path: %d\n", lengthOfShortestPath);
         // this function publish a file with desired path trace
         publishShortestPathGraph(&graph, Path, lengthOfShortestPath);

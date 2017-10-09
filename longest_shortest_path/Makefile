@@ -5,4 +5,4 @@ longest_shortest_path.o: longest_shortest_path.c graph.c graph.h
 graph.o:  graph.h graph.c
 	gcc -Wall -O2 -c graph.c -g
 clean:
-	rm *.o *.out *.dot
+	rm *.o *.out *.dot *.dor
