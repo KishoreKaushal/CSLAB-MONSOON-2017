@@ -1,3 +1,4 @@
+
 /*                              */
 /*    @kaushal_kishore          */
 /* mailTo: kshr4kshl@gmail.com  */
@@ -143,8 +144,8 @@ int * BreadthFirstSearch(_GRAPH_ * graph , _GNODE_ **root , _GNODE_ **goal){
     }
     addHead(&visited , root);
     enqueue(&q, root);
-    printf("Start Node: %d , Addr: %d\n", (*root)->nodeNumber , root );
-    printf("End Node: %d , Addr: %d\n", (*goal)->nodeNumber , goal );
+    //printf("Start Node: %d , Addr: %d\n", (*root)->nodeNumber , root );
+    //printf("End Node: %d , Addr: %d\n", (*goal)->nodeNumber , goal );
     while (!queueEmpty(&q)){
         _GNODE_ **current = (_GNODE_ *) dequeue(&q);
         if(current==goal){
@@ -273,7 +274,7 @@ int countPiecesAndPublish(_GRAPH_ * graph){
         initializeQueue(&q);
         root = &graph->node[iter];
         addHead(&visited , root);
-        ptr[pieces-1] = (int *)malloc(sizeof(int)*(ptrIdx+2));
+        ptr[pieces-1] = (int *)malloc(sizeof(int *) * (ptrIdx+2));
         ptr[pieces-1][ptrIdx++] = (*root)->nodeNumber;
         enqueue(&q, root);
         while (!queueEmpty(&q)){
@@ -354,6 +355,44 @@ int countPiecesAndPublish(_GRAPH_ * graph){
     freeList(&visited);
     free(ptr);
     return pieces;
+}
+
+int shortestPathLength(int *Path, int endNode) {
+    if(Path!=NULL) {
+        int i=0;
+        while(1){
+            //printf("\n%d ", Path[i]);
+            if(Path[i]==endNode)   break;
+            i++;
+        }
+        return i;
+    }
+    return 0;
+}
+
+int * findLongestShortestPath(_GRAPH_ * graph) {
+    int LongestShortestPath = 0;
+    int currentPathLength = 0;
+    int *node = (int *)malloc(sizeof(int )*2);
+    node[0] = 0 ; node[1] = 0;
+    int *Path;
+    for (int i=0; i < graph->vc ; i++ ){
+        for (int j=0; j<graph->vc ; j++ ){
+            Path = BreadthFirstSearch(graph , &graph->node[i], &graph->node[j]);
+            currentPathLength = shortestPathLength(Path, i);
+            if(currentPathLength > LongestShortestPath){
+                // longest shortest Path between node i and node j
+                printf("Path Length Between %d and %d : %d\n",i,j, currentPathLength);
+                node[0] = i;
+                node[1] = j;
+                LongestShortestPath = currentPathLength;
+            }
+            free(Path);
+            Path=NULL;
+        }
+    }
+    if(Path!=NULL) free(Path);
+    return node;
 }
 
 
