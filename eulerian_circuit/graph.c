@@ -406,7 +406,23 @@ int existEulerianCircuit(_GRAPH_ *graph){
     return 1;
 }
 
-void findEulerianCircuit(_GRAPH_ *graph , _CLINKED_LIST_ * eulerianPath) {
+void markEdgeLeft(int **edgeLeft, int edgeIdx, int vertex1, int vertex2) {
+    for (int i=0; i<edgeIdx ; i++) {
+        if((edgeLeft[0][i]==vertex1 && edgeLeft[0][i] == vertex2) ||(edgeLeft[0][i]==vertex2 && edgeLeft[0][i] == vertex1)){
+            edgeLeft[0][i] = -1 ; edgeLeft[0][i] = -1;
+        }
+    }
+}
+
+int findNextIdx(int **edgeLeft, int edgeIdx, int cVertex) {
+    for(int i=0; i<edgeIdx; i++ ){
+        if(edgeLeft[0][i] == cVertex)
+            return i;
+    }
+    return -1;
+}
+
+int findEulerianCircuit(_GRAPH_ *graph , _CLINKED_LIST_ * eulerianPath) {
     _LINKED_LIST_ visited;
     initializeList(&visited);
     int edges = 0, edgeIdx=0;
@@ -430,14 +446,38 @@ void findEulerianCircuit(_GRAPH_ *graph , _CLINKED_LIST_ * eulerianPath) {
     for (int i=0; i<edgeIdx; i++){
         printf("\t(%d , %d)\n",edgeLeft[0][i] , edgeLeft[1][i] );
     }
-
-
+    // start from node 0
+    int found=0, startIdx= 0 , nextIdx=0, eulerianCircuitPathLength=0;
+    int *ptr = (int *)malloc(sizeof(int));
+    *ptr = edgeLeft[0][startIdx];
+    addCTail(eulerianPath , ptr);
+    ptr = (int *)malloc(sizeof(int));
+    *ptr = edgeLeft[1][startIdx];
+    addCTail(eulerianPath , ptr);
+    nextIdx =findNextIdx(edgeLeft, edgeIdx, *ptr);
+    eulerianCircuitPathLength++;
+    do {
+        found=0;
+        if(nextIdx == -1)   break;
+        if((edgeLeft[0][nextIdx] != -1) && (edgeLeft[0][nextIdx] != -1)) {
+            found = 1;
+            ptr = (int *)malloc(sizeof(int));
+            *ptr = edgeLeft[0][nextIdx];
+            addCTail(eulerianPath , ptr);
+            ptr = (int *)malloc(sizeof(int));
+            *ptr = edgeLeft[1][nextIdx];
+            addCTail(eulerianPath , ptr);
+            nextIdx =findNextIdx(edgeLeft, edgeIdx, *ptr);
+            eulerianCircuitPathLength++;
+        }
+    } while (found);
 
     // free all allocated memory
     for (int i=0; i<2; i++)
         free(edgeLeft[i]);
     free(edgeLeft);
     freeList(&visited);
+    return eulerianCircuitPathLength;
 }
 
 /*-----------------DATA STRUCTURES-------------------*/
@@ -704,12 +744,13 @@ void freeCList(_CLINKED_LIST_ *Clist){
     Clist->head = Clist->tail = NULL;
 }
 */
-void freeCList(_CLINKED_LIST_ *Clist){
+void freeCListIntData(_CLINKED_LIST_ *Clist){
     if(!ClistEmpty(Clist)){
         _CNODE_ *cnode = Clist->head;
         Clist->tail->next = NULL;
         while(cnode != NULL){
             Clist->head  = Clist->head->next;
+            free(cnode->data);
             free(cnode);
             cnode = Clist->head;
         }

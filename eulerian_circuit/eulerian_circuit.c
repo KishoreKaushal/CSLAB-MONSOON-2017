@@ -15,6 +15,10 @@
 #include "graph.h"  // for personal use only -- contains function prototypes and structure definition
 // graph.c : contains function definition of corresponding function prototypes
 
+void printInt(int *ptr){
+    printf(" --> %d ", *ptr);
+}
+
 int main(){
     _GRAPH_ graph;  // declaring graph data structure
     char fileName[30];  // file name
@@ -31,17 +35,19 @@ int main(){
 
     for (int i=0; i<graph.vc; i++)
         printf("\nAddr of Node %d : %d", graph.node[i]->nodeNumber ,  &graph.node[i] );
-
+    int eulerianCircuitPathLength=-1;
     _CLINKED_LIST_ eulerianCircuit;
     // Eulerian Circuit Existence
     if(existEulerianCircuit(&graph)){
         puts("\nEulerian Circuit Exists..");
-        findEulerianCircuit(&graph , &eulerianCircuit);
+        eulerianCircuitPathLength=findEulerianCircuit(&graph , &eulerianCircuit);
+        printf("\nEulerian Circuit Path Length: %d\n", eulerianCircuitPathLength );
+        displayCLinkedList(&eulerianCircuit, (DISPLAY)printInt);
     } else puts("Eulerian Circuit Doesn't Exists..");
 
     // deallocating all the memory
     puts("\n....Deallocating all reserved memory....\n");
-    freeCList(&eulerianCircuit);
+    freeCListIntData(&eulerianCircuit);
     freeGraph(&graph);
     return 0;
 }

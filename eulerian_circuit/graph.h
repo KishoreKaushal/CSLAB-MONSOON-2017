@@ -114,7 +114,7 @@ int removeCNode(_CLINKED_LIST_*, _CNODE_*);               /* Removes a node from
 _CNODE_ *getCNode(const _CLINKED_LIST_*, COMPARE , void*);   /* Returns a pointer to the node containing a specific data item */
 void displayCLinkedList(const _CLINKED_LIST_*, DISPLAY);    /* Displays the linked list */
 int ClistEmpty(const _CLINKED_LIST_*); /*Returns 1 if list is empty */
-void freeCList(_CLINKED_LIST_*); /* Free the allocated linked list from the memory.*/
+void freeCListIntData(_CLINKED_LIST_*); /* Free the allocated linked list from the memory.*/
 
 
 /* -------------- DOUBLY CIRCULAR LINKED LIST ---------------- */
@@ -202,6 +202,6 @@ int shortestPathLength(int *Path,  int endnode);
 // check whether eulerian circuit exist or not
 int existEulerianCircuit(_GRAPH_ *graph);
 // finds eulerian circuit and stores it into the circular linked list given as a parameter
-void findEulerianCircuit(_GRAPH_ *graph , _CLINKED_LIST_ * eulerianPath);
+int findEulerianCircuit(_GRAPH_ *graph , _CLINKED_LIST_ * eulerianPath);
 
 #endif // GRAPH_H
