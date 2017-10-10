@@ -19,6 +19,10 @@ void printInt(int *ptr){
     printf(" --> %d ", *ptr);
 }
 
+int compareInt(int *a, int *b){
+    return (*a==*b);
+}
+
 int main(){
     _GRAPH_ graph;  // declaring graph data structure
     char fileName[30];  // file name
@@ -44,8 +48,9 @@ int main(){
         printf("\nEulerian Circuit Path Length: %d\n", eulerianCircuitPathLength );
         displayCLinkedList(&eulerianCircuit, (DISPLAY)printInt);
         printf("\nEnter a node number: \n");
-        scanf(" %d\n", &startNodeNum);
-        displayIntCLinkedListFromGivenNode(&eulerianCircuit, (DISPLAY)printInt, startNodeNum);
+        scanf(" %d", &startNodeNum);
+        printf("%d\n", __LINE__);
+        //displayIntCLinkedListFromGivenNode(&eulerianCircuit, (DISPLAY)printInt, startNodeNum);
     } else puts("Eulerian Circuit Doesn't Exists..");
 
     // deallocating all the memory
