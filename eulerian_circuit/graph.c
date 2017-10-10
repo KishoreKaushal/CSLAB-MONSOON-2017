@@ -476,9 +476,9 @@ int findEulerianCircuit(_GRAPH_ *graph , _CLINKED_LIST_ * eulerianPath) {
             //addCTail(eulerianPath , ptr);
             ptr = (int *)malloc(sizeof(int));
             *ptr = edgeLeft[1][nextIdx];
-            addCTail(eulerianPath , ptr);
             markEdgeLeft(edgeLeft, edgeIdx,edgeLeft[0][nextIdx] ,edgeLeft[1][nextIdx] );
             nextIdx =findNextIdx(edgeLeft, edgeIdx, *ptr);
+            if(nextIdx!=-1) addCTail(eulerianPath , ptr);
             eulerianCircuitPathLength++;
         }
     } while (found);
@@ -752,6 +752,7 @@ void displayCLinkedList(const _CLINKED_LIST_ *Clist, DISPLAY display){
         }
         display(cnode->data);
     }
+    display(Clist->head->data);
     printf("\n");
 }
 
@@ -759,6 +760,7 @@ void displayIntCLinkedListFromGivenNode(const _CLINKED_LIST_ *Clist, DISPLAY dis
     _CNODE_ *cnode = Clist->head;
     int found=0;
     if(cnode!=NULL){
+    //    printf("In graph.c : %d\n",__LINE__ );
         if(*((int *)cnode->data) == nodeData){
             found = 1;
         }else cnode = cnode->next;
@@ -767,21 +769,25 @@ void displayIntCLinkedListFromGivenNode(const _CLINKED_LIST_ *Clist, DISPLAY dis
                 found =1;
                 break;
             }
+            //printf("In graph.c : %d\n",__LINE__ );
             cnode = cnode->next;
         }
         if(*((int *)cnode->data)==nodeData){
             found=1;
+            //printf("In graph.c : %d\n",__LINE__ );
         }
     }
+    //printf("In graph.c : %d\n",__LINE__ );
     if(!found) {
-        printf("...Invalid Node Number...\n");
+    //    printf("...Invalid Node Number...\n");
     } else {
         _CNODE_ *temp = cnode ;
-        printf("%s\n", "Clist: -head-TO-tail-" );
+    //    printf("%s\n", "Clist: -head-TO-tail-" );
         if(cnode!=NULL){
             display(temp->data);
             temp = temp->next;
             while(temp != cnode){
+    //            printf("In graph.c : %d\n",__LINE__ );
                 display(temp->data);
                 temp = temp->next;
             }
