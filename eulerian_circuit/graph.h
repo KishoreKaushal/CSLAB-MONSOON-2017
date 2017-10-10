@@ -113,6 +113,8 @@ int addCTail(_CLINKED_LIST_*, void*);                 /* Adds data to the linked
 int removeCNode(_CLINKED_LIST_*, _CNODE_*);               /* Removes a node from the linked list */
 _CNODE_ *getCNode(const _CLINKED_LIST_*, COMPARE , void*);   /* Returns a pointer to the node containing a specific data item */
 void displayCLinkedList(const _CLINKED_LIST_*, DISPLAY);    /* Displays the linked list */
+void displayIntCLinkedListFromGivenNode(const _CLINKED_LIST_*, DISPLAY, int nodeData);    /* Displays the linked list */
+_CNODE_ *getCNodeIntData(const _CLINKED_LIST_ *Clist, int nodeData);
 int ClistEmpty(const _CLINKED_LIST_*); /*Returns 1 if list is empty */
 void freeCListIntData(_CLINKED_LIST_*); /* Free the allocated linked list from the memory.*/
 

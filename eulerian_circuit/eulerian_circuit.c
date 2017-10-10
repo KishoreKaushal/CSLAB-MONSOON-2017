@@ -35,7 +35,7 @@ int main(){
 
     for (int i=0; i<graph.vc; i++)
         printf("\nAddr of Node %d : %d", graph.node[i]->nodeNumber ,  &graph.node[i] );
-    int eulerianCircuitPathLength=-1;
+    int eulerianCircuitPathLength=-1, startNodeNum;
     _CLINKED_LIST_ eulerianCircuit;
     // Eulerian Circuit Existence
     if(existEulerianCircuit(&graph)){
@@ -43,6 +43,9 @@ int main(){
         eulerianCircuitPathLength=findEulerianCircuit(&graph , &eulerianCircuit);
         printf("\nEulerian Circuit Path Length: %d\n", eulerianCircuitPathLength );
         displayCLinkedList(&eulerianCircuit, (DISPLAY)printInt);
+        printf("\nEnter a node number: \n");
+        scanf(" %d\n", &startNodeNum);
+        displayIntCLinkedListFromGivenNode(&eulerianCircuit, (DISPLAY)printInt, startNodeNum);
     } else puts("Eulerian Circuit Doesn't Exists..");
 
     // deallocating all the memory

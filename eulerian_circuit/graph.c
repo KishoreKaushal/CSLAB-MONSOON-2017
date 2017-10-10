@@ -725,6 +725,21 @@ _CNODE_ *getCNode(const _CLINKED_LIST_ *Clist, COMPARE compare ,  void *data){
     return NULL;
 }
 
+
+_CNODE_ *getCNodeIntData(const _CLINKED_LIST_ *Clist, int nodeData){
+    _CNODE_ *cnode = Clist->head;
+    if(cnode!=NULL){
+        if( *((int *)cnode->data) == nodeData)  return cnode;
+        cnode = cnode->next;
+        while(cnode != Clist->tail){
+            if(*((int *)cnode->data) == nodeData) return cnode;
+            cnode = cnode->next;
+        }
+        if(*((int *)cnode->data) == nodeData) return cnode;
+    }
+    return NULL;
+}
+
 void displayCLinkedList(const _CLINKED_LIST_ *Clist, DISPLAY display){
     _CNODE_ *cnode = Clist->head;
     printf("%s\n", "Clist: -head-TO-tail-" );
@@ -738,6 +753,42 @@ void displayCLinkedList(const _CLINKED_LIST_ *Clist, DISPLAY display){
         display(cnode->data);
     }
     printf("\n");
+}
+
+void displayIntCLinkedListFromGivenNode(const _CLINKED_LIST_ *Clist, DISPLAY display, int nodeData) {
+    _CNODE_ *cnode = Clist->head;
+    int found=0;
+    if(cnode!=NULL){
+        if(*((int *)cnode->data) == nodeData){
+            found = 1;
+        }else cnode = cnode->next;
+        while((cnode != Clist->tail) && found!=1) {
+            if(*((int *)cnode->data) == nodeData){
+                found =1;
+                break;
+            }
+            cnode = cnode->next;
+        }
+        if(*((int *)cnode->data)==nodeData){
+            found=1;
+        }
+    }
+    if(!found) {
+        printf("...Invalid Node Number...\n");
+    } else {
+        _CNODE_ *temp = cnode ;
+        printf("%s\n", "Clist: -head-TO-tail-" );
+        if(cnode!=NULL){
+            display(temp->data);
+            temp = temp->next;
+            while(temp != cnode){
+                display(temp->data);
+                temp = temp->next;
+            }
+            display(temp->data);
+        }
+        printf("\n");
+    }
 }
 
 int ClistEmpty(const _CLINKED_LIST_ *Clist){
