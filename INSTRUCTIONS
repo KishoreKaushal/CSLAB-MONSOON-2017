@@ -1,0 +1,4 @@
+Step1--> Decompress the three files.
+Step2--> Each folder contain their Makefile. Hence, to make executable type the command : "make" by being in same directory as Makefile.
+
+Note: name of the executable will be similar to the name of the folder.

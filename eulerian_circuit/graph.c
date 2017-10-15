@@ -427,8 +427,10 @@ int findEulerianCircuit(_GRAPH_ *graph , _CLINKED_LIST_ * eulerianPath) {
     initializeList(&visited);
     int edges = 0, edgeIdx=0;
     int **edgeLeft = (int **)malloc(sizeof(int )*(2));
+    edgeLeft[0] = edgeLeft[1] = NULL;
     edgeLeft[0] = (int *)malloc(sizeof(int)*(edges+1));
     edgeLeft[1] = (int *)malloc(sizeof(int)*(edges+1));
+    edgeLeft[0][0] = edgeLeft[1][0] = -1;
     for(int i=0; i<graph->vc ; i++) {
         for (int j=0; j<graph->node[i]->adjNum; j++){
             edges++;
