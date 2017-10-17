@@ -652,6 +652,33 @@ int publishHamiltonianCycle(_GRAPH_ *graph, _CLINKED_LIST_ * hamiltonianPath) {
         }
     } while (found);
 
+    /*------------------PUBLISH THE HAMILTIONIAN PATH---------------------*/
+    printf("Hamiltonian Path: \n");
+    int *hPath = (int*)malloc(sizeof(int)*(hamiltonianCircuitPathLength+1)) ;
+    _CNODE_ *cnode = hamiltonianPath->head;
+    for(int i=0; i<hamiltonianCircuitPathLength+1 ; i++){
+        hPath[i] = *((int *)(cnode->data));
+    //    printf(" %d ", hPath[i]);
+        cnode = cnode->next;
+    }
+
+    //
+    // printf("%s\n", "Clist: -head-TO-tail-" );
+    // if(cnode!=NULL){
+    //     display(cnode->data);
+    //     cnode = cnode->next;
+    //     while(cnode != hamiltonianPath->tail){
+    //         display(cnode->data);
+    //         cnode = cnode->next;
+    //     }
+    //     display(cnode->data);
+    // }
+    // display(hamiltonianPath->head->data);
+
+    publishShortestPathGraph(graph , hPath , hamiltonianCircuitPathLength+1);
+
+    /*--------------------------------------------------------------------*/
+
     // free all allocated memory
     for (int i=0; i<2; i++)
         free(edgeLeft[i]);
@@ -925,6 +952,7 @@ void displayCLinkedList(const _CLINKED_LIST_ *Clist, DISPLAY display){
     display(Clist->head->data);
     printf("\n");
 }
+
 
 void displayIntCLinkedListFromGivenNode(const _CLINKED_LIST_ *Clist, DISPLAY display, int nodeData) {
     _CNODE_ *cnode = Clist->head;
