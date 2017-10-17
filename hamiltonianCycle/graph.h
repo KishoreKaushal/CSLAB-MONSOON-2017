@@ -211,4 +211,5 @@ int publishOptimalColorPlanarGraph(_GRAPH_ *graph);
 int publishHamiltonianCycle(_GRAPH_ *graph, _CLINKED_LIST_ * hamiltonianPath);
 void markEdgeLeft(int **edgeLeft, int edgeIdx, int vertex1, int vertex2);
 void markEdgeLeftHamiltonian(int **edgeLeft, int edgeIdx, int vertex1, int vertex2);
+void publishHamiltonianPathGraph( _GRAPH_ * graph ,int *shortestPath, int pathLength);
 #endif // GRAPH_H
