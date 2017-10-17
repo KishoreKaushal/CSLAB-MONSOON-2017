@@ -41,8 +41,24 @@ int main(){
         printf("\nAddr of Node %d : %d", graph.node[i]->nodeNumber ,  &graph.node[i] );
 
 
-    publishOptimalColorPlanarGraph(&graph);
+        int hamiltonianCircuitPathLength=-1, startNodeNum;
+        _CLINKED_LIST_ hamiltonianCircuit;
+        // Eulerian Circuit Existence
+        if(existEulerianCircuit(&graph)){
+            puts("\nEulerian Circuit Exists..");
+            hamiltonianCircuitPathLength=findEulerianCircuit(&graph , &hamiltonianCircuit);
+            printf("\nEulerian Circuit  Length: %d\n", hamiltonianCircuitPathLength );
+            displayCLinkedList(&hamiltonianCircuit, (DISPLAY)printInt);
+            printf("\nEnter a node number: \n");
+            scanf(" %d", &startNodeNum);
+            //printf("%d\n", __LINE__);
+            printf("\nEulerian circuit starting from node : %d \n", startNodeNum);
+            displayIntCLinkedListFromGivenNode(&hamiltonianCircuit, (DISPLAY)printInt, startNodeNum);
+        } else puts("Eulerian Circuit Doesn't Exists..");
 
+
+
+    freeCListIntData(&hamiltonianCircuit);
 
     // deallocating all the memory
     puts("\n....Deallocating all reserved memory....\n");

@@ -39,6 +39,7 @@ int main(){
 
     for (int i=0; i<graph.vc; i++)
         printf("\nAddr of Node %d : %d", graph.node[i]->nodeNumber ,  &graph.node[i] );
+
     int eulerianCircuitPathLength=-1, startNodeNum;
     _CLINKED_LIST_ eulerianCircuit;
     // Eulerian Circuit Existence
