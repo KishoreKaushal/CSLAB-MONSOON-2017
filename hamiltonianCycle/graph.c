@@ -635,13 +635,6 @@ int publishHamiltonianCycle(_GRAPH_ *graph, _CLINKED_LIST_ * hamiltonianPath) {
     printf("NextIdx: %d\n", nextIdx);
     hamiltonianCircuitPathLength++;
 
-    printf("\n\n...Showing All Edges: ...\n");
-
-    for (int i=0; i<edgeIdx; i++){
-        printf("\t(%d , %d)\n",edgeLeft[0][i] , edgeLeft[1][i] );
-    }
-
-
     do {
         found=0;
         if(nextIdx == -1)   break;
@@ -656,22 +649,8 @@ int publishHamiltonianCycle(_GRAPH_ *graph, _CLINKED_LIST_ * hamiltonianPath) {
             nextIdx =findNextIdx(edgeLeft, edgeIdx, *ptr);
             if(nextIdx!=-1) addCTail(hamiltonianPath , ptr);
             hamiltonianCircuitPathLength++;
-
-            printf("\n\n...Showing All Edges: ...\n");
-
-            for (int i=0; i<edgeIdx; i++){
-                printf("\t(%d , %d)\n",edgeLeft[0][i] , edgeLeft[1][i] );
-            }
-
         }
     } while (found);
-
-    printf("\n\n...Showing All Edges: ...\n");
-
-    for (int i=0; i<edgeIdx; i++){
-        printf("\t(%d , %d)\n",edgeLeft[0][i] , edgeLeft[1][i] );
-    }
-
 
     // free all allocated memory
     for (int i=0; i<2; i++)
