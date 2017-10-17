@@ -582,7 +582,7 @@ int publishOptimalColorPlanarGraph(_GRAPH_ *graph) {
 
 void markEdgeLeftHamiltonian(int **edgeLeft, int edgeIdx, int vertex1, int vertex2) {
     for (int i=0; i<edgeIdx ; i++) {
-        if((edgeLeft[0][i]==vertex1 || edgeLeft[1][i] == vertex2) ||(edgeLeft[0][i]==vertex2 || edgeLeft[1][i] == vertex1)){
+        if((edgeLeft[0][i]==vertex1 || edgeLeft[1][i] == vertex1) ||(edgeLeft[0][i]==vertex1 || edgeLeft[1][i] == vertex1)){
             edgeLeft[0][i] = -1 ; edgeLeft[1][i] = -1;
         }
     }
@@ -634,13 +634,13 @@ int publishHamiltonianCycle(_GRAPH_ *graph, _CLINKED_LIST_ * hamiltonianPath) {
     nextIdx =findNextIdx(edgeLeft, edgeIdx, *ptr);
     printf("NextIdx: %d\n", nextIdx);
     hamiltonianCircuitPathLength++;
-/*
-    printf("...Showing All Edges: ...\n");
+
+    printf("\n\n...Showing All Edges: ...\n");
 
     for (int i=0; i<edgeIdx; i++){
         printf("\t(%d , %d)\n",edgeLeft[0][i] , edgeLeft[1][i] );
     }
-*/
+
 
     do {
         found=0;
@@ -652,12 +652,26 @@ int publishHamiltonianCycle(_GRAPH_ *graph, _CLINKED_LIST_ * hamiltonianPath) {
             //addCTail(eulerianPath , ptr);
             ptr = (int *)malloc(sizeof(int));
             *ptr = edgeLeft[1][nextIdx];
-            markEdgeLeft(edgeLeft, edgeIdx,edgeLeft[0][nextIdx] ,edgeLeft[1][nextIdx] );
+            markEdgeLeftHamiltonian(edgeLeft, edgeIdx,edgeLeft[0][nextIdx] ,edgeLeft[1][nextIdx] );
             nextIdx =findNextIdx(edgeLeft, edgeIdx, *ptr);
             if(nextIdx!=-1) addCTail(hamiltonianPath , ptr);
             hamiltonianCircuitPathLength++;
+
+            printf("\n\n...Showing All Edges: ...\n");
+
+            for (int i=0; i<edgeIdx; i++){
+                printf("\t(%d , %d)\n",edgeLeft[0][i] , edgeLeft[1][i] );
+            }
+
         }
     } while (found);
+
+    printf("\n\n...Showing All Edges: ...\n");
+
+    for (int i=0; i<edgeIdx; i++){
+        printf("\t(%d , %d)\n",edgeLeft[0][i] , edgeLeft[1][i] );
+    }
+
 
     // free all allocated memory
     for (int i=0; i<2; i++)
