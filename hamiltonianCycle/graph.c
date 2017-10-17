@@ -588,13 +588,15 @@ void markEdgeLeftHamiltonian(int **edgeLeft, int edgeIdx, int vertex1, int verte
     }
 }
 
-int publishHamiltonianCycle(_GRAPH_ *graph, _CLINKED_LIST_ * hamiltonianPath) {
+int existHamiltonianCircuit(_GRAPH_ *graph){
     for (int i=0; i<graph->vc; i++) {
-        if(graph->node[i]->adjNum %2 !=0){
+        if(graph->node[i]->adjNum <=1){
             return 0;
         }
     }
+}
 
+int publishHamiltonianCycle(_GRAPH_ *graph, _CLINKED_LIST_ * hamiltonianPath) {
     _LINKED_LIST_ visited;
     initializeList(&visited);
     int edges = 0, edgeIdx=0;

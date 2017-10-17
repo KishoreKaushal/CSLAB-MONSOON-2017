@@ -44,17 +44,12 @@ int main(){
         int hamiltonianCircuitPathLength=-1, startNodeNum;
         _CLINKED_LIST_ hamiltonianCircuit;
         // Eulerian Circuit Existence
-        if(existEulerianCircuit(&graph)){
-            puts("\nEulerian Circuit Exists..");
-            hamiltonianCircuitPathLength=findEulerianCircuit(&graph , &hamiltonianCircuit);
-            printf("\nEulerian Circuit  Length: %d\n", hamiltonianCircuitPathLength );
+        if(existHamiltonianCircuit(&graph)){
+            puts("\nHamiltonian Circuit May Exists..");
+            hamiltonianCircuitPathLength=publishHamiltonianCycle(&graph , &hamiltonianCircuit);
+            printf("\nHamiltonian Circuit  Length: %d\n", hamiltonianCircuitPathLength );
             displayCLinkedList(&hamiltonianCircuit, (DISPLAY)printInt);
-            printf("\nEnter a node number: \n");
-            scanf(" %d", &startNodeNum);
-            //printf("%d\n", __LINE__);
-            printf("\nEulerian circuit starting from node : %d \n", startNodeNum);
-            displayIntCLinkedListFromGivenNode(&hamiltonianCircuit, (DISPLAY)printInt, startNodeNum);
-        } else puts("Eulerian Circuit Doesn't Exists..");
+        } else puts("Hamiltonian Circuit Doesn't Exists..");
 
 
 

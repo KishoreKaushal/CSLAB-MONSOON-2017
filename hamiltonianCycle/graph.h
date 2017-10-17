@@ -208,7 +208,7 @@ int findEulerianCircuit(_GRAPH_ *graph , _CLINKED_LIST_ * eulerianPath);
 // color a planar graph vertex using 6-color or few and publish the graph
 int publishOptimalColorPlanarGraph(_GRAPH_ *graph);
 // finds a hamiltonian cycle and publish the graph , returns 0 if hamiltonian cycle doesn't exists
-int publishHamiltonianCycle(_GRAPH_ *graph);
+int publishHamiltonianCycle(_GRAPH_ *graph, _CLINKED_LIST_ * hamiltonianPath);
 void markEdgeLeft(int **edgeLeft, int edgeIdx, int vertex1, int vertex2);
 void markEdgeLeftHamiltonian(int **edgeLeft, int edgeIdx, int vertex1, int vertex2);
 #endif // GRAPH_H
