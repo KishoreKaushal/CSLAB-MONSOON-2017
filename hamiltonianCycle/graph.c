@@ -8,11 +8,6 @@
 #include<stdlib.h>
 #include<string.h>
 #include"graph.h"
-<<<<<<< HEAD
-
-=======
-#include"graph.h"
->>>>>>> master
 
 char *colour[] = {
     "color=red",
@@ -138,10 +133,6 @@ static void displayNodeNumber(_GNODE_ **node){
     printf("%d ", node);
 }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> master
 int * BreadthFirstSearch(_GRAPH_ * graph , _GNODE_ **root , _GNODE_ **goal){
     _LINKED_LIST_ visited;
     initializeList(&visited);
@@ -227,42 +218,6 @@ int checkEdgeInPath(int *shortestPath , int pathLength , int vertex1 , int verte
     }
     return 0;
 }
-
-<<<<<<< HEAD
-=======
-void publishHamiltonianPathGraph( _GRAPH_ * graph ,int *shortestPath, int pathLength){
-    char outFileName[30];
-    printf("\nEnter the output \".dot\" file name (without any spaces) : ");
-    scanf(" %s" , outFileName);
-    FILE *fout = fopen(outFileName, "w+");
-    int isolation=0;
-    fprintf(fout, "graph %s { \n", graph->name);
-    for (int i=0; i<graph->vc ; i++){
-        isolation = 1;
-        for (int j=i; j<graph->vc ; j++){
-            if(graph->AM[i][j]==1){
-                if(checkEdgeInPath(shortestPath, pathLength, i ,j))
-                    fprintf(fout, "%d -- %d  ;\n", i , j);
-                else fprintf(fout, "%d -- %d ;\n", i , j);
-                isolation = 0;
-            }
-        }
-        // IF A POINT IS ISOLATED
-        if(isolation) { fprintf( fout , "%d\n", i); }
-    }
-    for (int i=1; i<pathLength ; i++){
-        fprintf(fout, "%d -- %d  [color=red];\n", shortestPath[i-1] , shortestPath[i]);
-    }
-
-    fprintf(fout , "\n}" );
-    fclose(fout);
-    char command[40] = "xdot ";
-    strcat(command, outFileName);
-    system(command);
-}
-
-
->>>>>>> master
 
 void publishShortestPathGraph( _GRAPH_ * graph ,int *shortestPath, int pathLength){
     char outFileName[30];
@@ -464,8 +419,6 @@ int findNextIdx(int **edgeLeft, int edgeIdx, int cVertex) {
     }
     return -1;
 }
-
-<<<<<<< HEAD
 /* A utility function to check if the vertex v can be added at
    index 'pos' in the Hamiltonian Cycle constructed so far (stored
    in 'path[]') */
@@ -608,8 +561,6 @@ int *hamCycle(_GRAPH_ * graph)
 //     return path;
 // }
 
-=======
->>>>>>> master
 int findEulerianCircuit(_GRAPH_ *graph , _CLINKED_LIST_ * eulerianPath) {
     _LINKED_LIST_ visited;
     initializeList(&visited);
@@ -768,266 +719,7 @@ int publishOptimalColorPlanarGraph(_GRAPH_ *graph) {
     system(command);
 }
 
-<<<<<<< HEAD
-=======
-int notInVisited(int *visited , int visitIdx, int ele) {
-    for (int i=0; i<visitIdx ; i++){
-        if(ele == visited[i]) return 0;
-    }
-    return 1;
-}
 
-void markEdgeLeftHamiltonian(int **edgeLeft, int edgeIdx, int *visited , int visitIdx, int vertex1, int vertex2) {
-    for (int i=0; i<edgeIdx ; i++) {
-        if( (edgeLeft[0][i]==vertex1 || edgeLeft[1][i] == vertex1 || edgeLeft[0][i]==vertex1 || edgeLeft[1][i] == vertex1 ) && notInVisited(visited, visitIdx , vertex1) ){
-            edgeLeft[0][i] = -1 ; edgeLeft[1][i] = -1;
-        }
-    }
-}
-
-int existHamiltonianCircuit(_GRAPH_ *graph){
-    for (int i=0; i<graph->vc; i++) {
-        if(graph->node[i]->adjNum < (graph->vc/2)){
-            return 0;
-        }
-    }
-    return 1;
-}
-
-int publishHamiltonianCycle(_GRAPH_ *graph, _CLINKED_LIST_ * hamiltonianPath) {
-    if(!existHamiltonianCircuit(graph)) {
-        printf("Hamiltonian path doesn't exists.\n");
-        return 0;
-    }
-    _LINKED_LIST_ visited;
-    initializeList(&visited);
-    int edges = 0, edgeIdx=0;
-    int **edgeLeft = (int **)malloc(sizeof(int )*(2));
-    edgeLeft[0] = edgeLeft[1] = NULL;
-    edgeLeft[0] = (int *)malloc(sizeof(int)*(edges+1));
-    edgeLeft[1] = (int *)malloc(sizeof(int)*(edges+1));
-    edgeLeft[0][0] = edgeLeft[1][0] = -1;
-    for(int i=0; i<graph->vc ; i++) {
-        for (int j=0; j<graph->node[i]->adjNum; j++){
-            edges++;
-            edgeLeft[0] = (int *)realloc( edgeLeft[0] , sizeof(int )*(edges+1));
-            edgeLeft[1] = (int *)realloc( edgeLeft[1] , sizeof(int )*(edges+1));
-            edgeLeft[0][edgeIdx] = i;
-            edgeLeft[1][edgeIdx] = (*graph->node[i]->adjacent[j])->nodeNumber;
-            edgeIdx++;
-        }
-    }
-    edgeLeft[0][edgeIdx] = -1 ;
-    edgeLeft[1][edgeIdx] = -1 ;
-    printf("...Showing All Edges: ...\n");
-
-    int *visited = (int *)malloc(graph->vc*sizeof(int));
-    for (int i=0; i<edgeIdx; i++){
-        printf("\t(%d , %d)\n",edgeLeft[0][i] , edgeLeft[1][i] );
-    }
-    // start from node 0
-    int found=0, startIdx= 0 ,visitIdx=0, nextIdx=0, hamiltonianCircuitPathLength=0;
-
-    int *ptr = (int *)malloc(sizeof(int));
-    *ptr = edgeLeft[0][startIdx];
-    visited[visitIdx++] = edgeLeft[0][nextIdx];
-    addCTail(hamiltonianPath , ptr);
-    ptr = (int *)malloc(sizeof(int));
-    *ptr = edgeLeft[1][startIdx];
-    addCTail(hamiltonianPath , ptr);
-    markEdgeLeftHamiltonian(edgeLeft, edgeIdx,edgeLeft[0][startIdx] ,edgeLeft[1][startIdx] );
-    nextIdx =findNextIdx(edgeLeft, edgeIdx, *ptr);
-    printf("NextIdx: %d\n", nextIdx);
-    hamiltonianCircuitPathLength++;
-
-    do {
-        found=0;
-        if(nextIdx == -1)   break;
-        if((edgeLeft[0][nextIdx] != -1) && (edgeLeft[0][nextIdx] != -1)) {
-            found = 1;
-            ptr = (int *)malloc(sizeof(int));
-            *ptr = edgeLeft[0][nextIdx];
-            visited[visitIdx++] = edgeLeft[0][nextIdx];
-            //addCTail(eulerianPath , ptr);
-            ptr = (int *)malloc(sizeof(int));
-            *ptr = edgeLeft[1][nextIdx];
-            printf("...Showing All Edges Left: ...\n Next Idx: %d , Current Node Number: %d" , nextIdx ,  edgeLeft[0][nextIdx]);
-            markEdgeLeftHamiltonian(edgeLeft, edgeIdx, visited , visitIdx , geLeft[0][nextIdx] ,edgeLeft[1][nextIdx] );
-            nextIdx =findNextIdx(edgeLeft, edgeIdx, *ptr);
-            if(nextIdx!=-1) addCTail(hamiltonianPath , ptr);
-            hamiltonianCircuitPathLength++;
-        }
-        for (int i=0; i<edgeIdx; i++){
-            if(edgeLeft[0][i]!=-1)printf("\t(%d , %d)\n",edgeLeft[0][i] , edgeLeft[1][i] );
-        }
-    } while (found);
-    //
-    // printf("...Showing All Edges: ...\n");
-    //
-    // for (int i=0; i<edgeIdx; i++){
-    //     printf("\t(%d , %d)\n",edgeLeft[0][i] , edgeLeft[1][i] );
-    // }
-
-
-    /*------------------PUBLISH THE HAMILTIONIAN PATH---------------------*/
-    //printf("Hamiltonian Path: \n");
-    int *hPath = (int*)malloc(sizeof(int)*(hamiltonianCircuitPathLength+1)) ;
-    _CNODE_ *cnode = hamiltonianPath->head;
-    for(int i=0; i<hamiltonianCircuitPathLength+1 ; i++){
-        hPath[i] = *((int *)(cnode->data));
-    //    printf(" %d ", hPath[i]);
-        cnode = cnode->next;
-    }
-
-    //
-    // printf("%s\n", "Clist: -head-TO-tail-" );
-    // if(cnode!=NULL){
-    //     display(cnode->data);
-    //     cnode = cnode->next;
-    //     while(cnode != hamiltonianPath->tail){
-    //         display(cnode->data);
-    //         cnode = cnode->next;
-    //     }
-    //     display(cnode->data);
-    // }
-    // display(hamiltonianPath->head->data);
-
-    publishHamiltonianPathGraph(graph , hPath , hamiltonianCircuitPathLength+1);
-
-    /*--------------------------------------------------------------------*/
-
-    // free all allocated memory
-    for (int i=0; i<2; i++)
-        free(edgeLeft[i]);
-    free(edgeLeft);
-    freeList(&visited);
-    return hamiltonianCircuitPathLength;
-}
-
-
-
-
-
-
-int printHPath(_GRAPH_ *graph, _CLINKED_LIST_ * hamiltonianPath) {
-    if(!existHamiltonianCircuit(graph)) {
-        printf("Hamiltonian path doesn't exists.\n");
-        return 0;
-    }
-    _LINKED_LIST_ visited;
-    initializeList(&visited);
-    int edges = 0, edgeIdx=0;
-    int **edgeLeft = (int **)malloc(sizeof(int )*(2));
-    edgeLeft[0] = edgeLeft[1] = NULL;
-    edgeLeft[0] = (int *)malloc(sizeof(int)*(edges+1));
-    edgeLeft[1] = (int *)malloc(sizeof(int)*(edges+1));
-    edgeLeft[0][0] = edgeLeft[1][0] = -1;
-    for(int i=0; i<graph->vc ; i++) {
-        for (int j=0; j<graph->node[i]->adjNum; j++){
-            edges++;
-            edgeLeft[0] = (int *)realloc( edgeLeft[0] , sizeof(int )*(edges+1));
-            edgeLeft[1] = (int *)realloc( edgeLeft[1] , sizeof(int )*(edges+1));
-            edgeLeft[0][edgeIdx] = i;
-            edgeLeft[1][edgeIdx] = (*graph->node[i]->adjacent[j])->nodeNumber;
-            edgeIdx++;
-        }
-    }
-    edgeLeft[0][edgeIdx] = -1 ;
-    edgeLeft[1][edgeIdx] = -1 ;
-    printf("...Showing All Edges: ...\n");
-
-    int *visited = (int *)malloc(graph->vc*sizeof(int));
-    for (int i=0; i<edgeIdx; i++){
-        printf("\t(%d , %d)\n",edgeLeft[0][i] , edgeLeft[1][i] );
-    }
-    // start from node 0
-    int found=0, startIdx= 0 ,visitIdx=0, nextIdx=0, hamiltonianCircuitPathLength=0;
-
-    int *ptr = (int *)malloc(sizeof(int));
-    *ptr = edgeLeft[0][startIdx];
-    visited[visitIdx++] = edgeLeft[0][nextIdx];
-    addCTail(hamiltonianPath , ptr);
-    ptr = (int *)malloc(sizeof(int));
-    *ptr = edgeLeft[1][startIdx];
-    addCTail(hamiltonianPath , ptr);
-    markEdgeLeftHamiltonian(edgeLeft, edgeIdx,edgeLeft[0][startIdx] ,edgeLeft[1][startIdx] );
-    nextIdx =findNextIdx(edgeLeft, edgeIdx, *ptr);
-    printf("NextIdx: %d\n", nextIdx);
-    hamiltonianCircuitPathLength++;
-
-    do {
-        found=0;
-        if(nextIdx == -1)   break;
-        if((edgeLeft[0][nextIdx] != -1) && (edgeLeft[0][nextIdx] != -1)) {
-            found = 1;
-            ptr = (int *)malloc(sizeof(int));
-            *ptr = edgeLeft[0][nextIdx];
-            visited[visitIdx++] = edgeLeft[0][nextIdx];
-            //addCTail(eulerianPath , ptr);
-            ptr = (int *)malloc(sizeof(int));
-            *ptr = edgeLeft[1][nextIdx];
-            printf("...Showing All Edges Left: ...\n Next Idx: %d , Current Node Number: %d" , nextIdx ,  edgeLeft[0][nextIdx]);
-            markEdgeLeftHamiltonian(edgeLeft, edgeIdx, visited , visitIdx , geLeft[0][nextIdx] ,edgeLeft[1][nextIdx] );
-            nextIdx =findNextIdx(edgeLeft, edgeIdx, *ptr);
-            if(nextIdx!=-1) addCTail(hamiltonianPath , ptr);
-            hamiltonianCircuitPathLength++;
-        }
-        for (int i=0; i<edgeIdx; i++){
-            if(edgeLeft[0][i]!=-1)printf("\t(%d , %d)\n",edgeLeft[0][i] , edgeLeft[1][i] );
-        }
-    } while (found);
-    //
-    // printf("...Showing All Edges: ...\n");
-    //
-    // for (int i=0; i<edgeIdx; i++){
-    //     printf("\t(%d , %d)\n",edgeLeft[0][i] , edgeLeft[1][i] );
-    // }
-
-
-    /*------------------PUBLISH THE HAMILTIONIAN PATH---------------------*/
-    //printf("Hamiltonian Path: \n");
-    int *hPath = (int*)malloc(sizeof(int)*(hamiltonianCircuitPathLength+1)) ;
-    _CNODE_ *cnode = hamiltonianPath->head;
-    for(int i=0; i<hamiltonianCircuitPathLength+1 ; i++){
-        hPath[i] = *((int *)(cnode->data));
-    //    printf(" %d ", hPath[i]);
-        cnode = cnode->next;
-    }
-
-    //
-    // printf("%s\n", "Clist: -head-TO-tail-" );
-    // if(cnode!=NULL){
-    //     display(cnode->data);
-    //     cnode = cnode->next;
-    //     while(cnode != hamiltonianPath->tail){
-    //         display(cnode->data);
-    //         cnode = cnode->next;
-    //     }
-    //     display(cnode->data);
-    // }
-    // display(hamiltonianPath->head->data);
-
-    publishHamiltonianPathGraph(graph , hPath , hamiltonianCircuitPathLength+1);
-
-    /*--------------------------------------------------------------------*/
-
-    // free all allocated memory
-    for (int i=0; i<2; i++)
-        free(edgeLeft[i]);
-    free(edgeLeft);
-    freeList(&visited);
-    return hamiltonianCircuitPathLength;
-}
-
-
-
-
-
-
-
-
-
->>>>>>> master
 
 /*-----------------DATA STRUCTURES-------------------*/
 void initializeList(_LINKED_LIST_ *list){
@@ -1293,11 +985,6 @@ void displayCLinkedList(const _CLINKED_LIST_ *Clist, DISPLAY display){
     display(Clist->head->data);
     printf("\n");
 }
-
-<<<<<<< HEAD
-=======
-
->>>>>>> master
 void displayIntCLinkedListFromGivenNode(const _CLINKED_LIST_ *Clist, DISPLAY display, int nodeData) {
     _CNODE_ *cnode = Clist->head;
     int found=0;
@@ -1367,7 +1054,6 @@ void freeCListIntData(_CLINKED_LIST_ *Clist){
         Clist->head = Clist->tail = NULL;
     }
 }
-<<<<<<< HEAD
 
 
 void printIntArr(int *arr , size_t n){
@@ -1377,5 +1063,3 @@ void printIntArr(int *arr , size_t n){
     }
     printf("\n");
 }
-=======
->>>>>>> master
