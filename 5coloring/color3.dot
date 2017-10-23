@@ -1,0 +1,27 @@
+graph planar3
+ { 
+0 -- 1 ;
+0 -- 3 ;
+0 -- 4 ;
+0 [color=red , style=filled]
+1 -- 2 ;
+1 -- 7 ;
+1 [color=blue , style=filled]
+2 -- 3 ;
+2 -- 4 ;
+2 [color=red , style=filled]
+3 [color=blue , style=filled]
+4 [color=blue , style=filled]
+5 -- 6 ;
+5 -- 9 ;
+5 [color=blue , style=filled]
+6 -- 8 ;
+6 [color=red , style=filled]
+7 -- 8 ;
+7 -- 9 ;
+7 [color=red , style=filled]
+8 -- 9 ;
+8 [color=blue , style=filled]
+9 [color=green , style=filled]
+
+}

@@ -34,19 +34,44 @@ int main(){
     }
     // read the text file and create the graph data structure in the backend
     // for more detail on this function please check in graph.c
+<<<<<<< HEAD
     //printGraph(&graph); // print the graph
     //printAllGraphNodeNumber(&graph);    // print the node numbers with their address
+=======
+    printGraph(&graph); // print the graph
+    printAllGraphNodeNumber(&graph);    // print the node numbers with their address
+>>>>>>> master
 
     for (int i=0; i<graph.vc; i++)
         printf("\nAddr of Node %d : %d", graph.node[i]->nodeNumber ,  &graph.node[i] );
 
+<<<<<<< HEAD
         printf("\n\n");
     int *hamC = hamCycle(&graph);
     publishShortestPathGraph( &graph ,hamC, graph.vc+1);
+=======
+
+        int hamiltonianCircuitPathLength=-1, startNodeNum;
+        _CLINKED_LIST_ hamiltonianCircuit;
+        // Eulerian Circuit Existence
+        if(existHamiltonianCircuit(&graph)){
+            puts("\nHamiltonian Circuit May Exists..");
+            hamiltonianCircuitPathLength=publishHamiltonianCycle(&graph , &hamiltonianCircuit);
+            printf("\nHamiltonian Circuit  Length: %d\n", hamiltonianCircuitPathLength );
+            displayCLinkedList(&hamiltonianCircuit, (DISPLAY)printInt);
+        } else puts("Hamiltonian Circuit Doesn't Exists..");
+
+
+
+    freeCListIntData(&hamiltonianCircuit);
+>>>>>>> master
 
     // deallocating all the memory
     puts("\n....Deallocating all reserved memory....\n");
     freeGraph(&graph);
+<<<<<<< HEAD
     free(hamC);
+=======
+>>>>>>> master
     return 0;
 }

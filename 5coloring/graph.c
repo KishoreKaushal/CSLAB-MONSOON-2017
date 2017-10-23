@@ -495,11 +495,13 @@ int findEulerianCircuit(_GRAPH_ *graph , _CLINKED_LIST_ * eulerianPath) {
 
 int publishOptimalColorPlanarGraph(_GRAPH_ *graph) {
     // little check to check whether the graph is planar or not
+    int degreeSum = 0;
     for(int i=0; i<graph->vc ; i++) {
-        if(graph->node[i]->adjNum > 5)  {
-            puts("\nNode with degree more than 5 exists. Hence its not planar.");
-            return 0;
-        }
+        degreeSum+=graph->node[i]->adjNum;
+    }
+    if(degreeSum >= 6*graph->vc)  {
+        puts("\nHence its not planar.");
+        return 0;
     }
 
     int *vertexColor = (int *)malloc(sizeof(int)*graph->vc);
